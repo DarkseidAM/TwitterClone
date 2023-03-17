@@ -12,7 +12,8 @@ part 'sign_up_usecase.g.dart';
 SignUpUseCase signUpUseCase(SignUpUseCaseRef ref) =>
     SignUpUseCase(authRepository: ref.watch(authRepositoryProvider));
 
-class SignUpUseCase implements UseCase<Tuple2<String, String>, model.Account> {
+class SignUpUseCase
+    implements EitherUseCase<Tuple2<String, String>, model.Account> {
   const SignUpUseCase({required AuthRepository authRepository})
       : _authRepository = authRepository;
   final AuthRepository _authRepository;

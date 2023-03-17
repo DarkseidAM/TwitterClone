@@ -2,6 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:twitter_clone/core/navigation/router_constants.dart';
 import 'package:twitter_clone/core/theme/theme.dart';
 import 'package:twitter_clone/core/utils/constants.dart';
 import 'package:twitter_clone/core/widgets/common_widgets.dart';
@@ -9,14 +10,14 @@ import 'package:twitter_clone/core/widgets/loading_page.dart';
 import 'package:twitter_clone/features/auth/presentation/controller/auth_controller.dart';
 import 'package:twitter_clone/features/auth/presentation/widgets/auth_field.dart';
 
-class SingUpView extends ConsumerStatefulWidget {
-  const SingUpView({super.key});
+class SignUpView extends ConsumerStatefulWidget {
+  const SignUpView({super.key});
 
   @override
-  ConsumerState<SingUpView> createState() => _SingUpViewState();
+  ConsumerState<SignUpView> createState() => _SingUpViewState();
 }
 
-class _SingUpViewState extends ConsumerState<SingUpView> {
+class _SingUpViewState extends ConsumerState<SignUpView> {
   final AppBar appBar = UIConstants.appBar();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
@@ -88,7 +89,7 @@ class _SingUpViewState extends ConsumerState<SingUpView> {
                             ),
                             recognizer: TapGestureRecognizer()
                               ..onTap = () {
-                                context.go('/login');
+                                context.go(loginRoute);
                               },
                           )
                         ],

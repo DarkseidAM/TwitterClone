@@ -12,7 +12,8 @@ part 'login_usecase.g.dart';
 LoginUseCase loginUseCase(LoginUseCaseRef ref) =>
     LoginUseCase(authRepository: ref.watch(authRepositoryProvider));
 
-class LoginUseCase implements UseCase<Tuple2<String, String>, model.Session> {
+class LoginUseCase
+    implements EitherUseCase<Tuple2<String, String>, model.Session> {
   const LoginUseCase({required AuthRepository authRepository})
       : _authRepository = authRepository;
   final AuthRepository _authRepository;

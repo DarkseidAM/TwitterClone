@@ -1,8 +1,10 @@
 import 'package:appwrite/models.dart' as model;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:logger/logger.dart';
 import 'package:tuple/tuple.dart';
+import 'package:twitter_clone/core/navigation/router_constants.dart';
 import 'package:twitter_clone/core/providers.dart';
 import 'package:twitter_clone/core/typedef/failure.dart';
 import 'package:twitter_clone/core/typedef/type_defs.dart';
@@ -45,7 +47,11 @@ class AuthController extends StateNotifier<bool> {
     state = false;
     response.fold(
       (Failure l) => showSnackBar(context, l.message),
-      (model.Account r) => _logger.d(r.email),
+      (model.Account r) {
+        _logger.d(r.email);
+        showSnackBar(context, 'Account Created! Please login.');
+        context.push(loginRoute);
+      },
     );
   }
 
@@ -60,7 +66,10 @@ class AuthController extends StateNotifier<bool> {
     state = false;
     response.fold(
       (Failure l) => showSnackBar(context, l.message),
-      (model.Session r) => _logger.d(r.userId),
+      (model.Session r) {
+        _logger.d(r.userId);
+        context.push(homeRoute);
+      },
     );
   }
 }
