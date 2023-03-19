@@ -1,7 +1,7 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:twitter_clone/core/navigation/router_constants.dart';
 import 'package:twitter_clone/core/theme/theme.dart';
 import 'package:twitter_clone/core/utils/constants.dart';
@@ -89,7 +89,8 @@ class _LoginViewState extends ConsumerState<LoginView> {
                             ),
                             recognizer: TapGestureRecognizer()
                               ..onTap = () {
-                                context.go(signUpRoute);
+                                context.router
+                                    .pushNamed(RouterConstants.signUpRoute);
                               },
                           )
                         ],

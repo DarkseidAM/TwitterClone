@@ -1,11 +1,9 @@
 import 'package:appwrite/models.dart' as model;
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
-import 'package:logger/logger.dart';
 import 'package:tuple/tuple.dart';
 import 'package:twitter_clone/core/navigation/router_constants.dart';
-import 'package:twitter_clone/core/providers.dart';
 import 'package:twitter_clone/core/typedef/failure.dart';
 import 'package:twitter_clone/core/typedef/type_defs.dart';
 import 'package:twitter_clone/core/utils/common_utils.dart';
@@ -19,7 +17,6 @@ final AutoDisposeStateNotifierProvider<AuthController, bool>
   return AuthController(
     signUpUseCase: ref.read(signUpUseCaseProvider),
     loginUseCase: ref.read(loginUseCaseProvider),
-    logger: ref.read(loggerProvider),
   );
 });
 
@@ -27,14 +24,11 @@ class AuthController extends StateNotifier<bool> {
   AuthController({
     required SignUpUseCase signUpUseCase,
     required LoginUseCase loginUseCase,
-    required Logger logger,
   })  : _signUpUseCase = signUpUseCase,
         _loginUseCase = loginUseCase,
-        _logger = logger,
         super(false);
   final SignUpUseCase _signUpUseCase;
   final LoginUseCase _loginUseCase;
-  final Logger _logger;
 
   Future<void> signUp({
     required String email,
@@ -48,9 +42,8 @@ class AuthController extends StateNotifier<bool> {
     response.fold(
       (Failure l) => showSnackBar(context, l.message),
       (model.Account r) {
-        _logger.d(r.email);
         showSnackBar(context, 'Account Created! Please login.');
-        context.push(loginRoute);
+        context.router.pushNamed(RouterConstants.loginRoute);
       },
     );
   }
@@ -67,8 +60,7 @@ class AuthController extends StateNotifier<bool> {
     response.fold(
       (Failure l) => showSnackBar(context, l.message),
       (model.Session r) {
-        _logger.d(r.userId);
-        context.push(homeRoute);
+        context.router.pushNamed(RouterConstants.homeRoute);
       },
     );
   }
