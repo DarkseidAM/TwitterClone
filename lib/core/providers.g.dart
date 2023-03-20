@@ -20,7 +20,7 @@ final clientProvider = AutoDisposeProvider<Client>.internal(
 );
 
 typedef ClientRef = AutoDisposeProviderRef<Client>;
-String _$accountHash() => r'05da9db4e454dc1c9163642dc089cdc144a11a93';
+String _$accountHash() => r'7fe027fd974ef21e07d7d2f922b10392eccb9f26';
 
 /// See also [account].
 @ProviderFor(account)
@@ -34,21 +34,21 @@ final accountProvider = AutoDisposeProvider<Account>.internal(
 );
 
 typedef AccountRef = AutoDisposeProviderRef<Account>;
-String _$databaseHash() => r'eb8f060dbc407bedecf808b4266200fdb90b87e9';
+String _$databasesHash() => r'90757b645beccdcfe75e1014e3a214739692b874';
 
-/// See also [database].
-@ProviderFor(database)
-final databaseProvider = AutoDisposeProvider<Databases>.internal(
-  database,
-  name: r'databaseProvider',
+/// See also [databases].
+@ProviderFor(databases)
+final databasesProvider = AutoDisposeProvider<Databases>.internal(
+  databases,
+  name: r'databasesProvider',
   debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$databaseHash,
+      const bool.fromEnvironment('dart.vm.product') ? null : _$databasesHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef DatabaseRef = AutoDisposeProviderRef<Databases>;
-String _$storageHash() => r'3495515c6b1adc6e48959d056b06bb2638fcd85d';
+typedef DatabasesRef = AutoDisposeProviderRef<Databases>;
+String _$storageHash() => r'c5a49401a8f2b2c88d611598c5f680ed892a065e';
 
 /// See also [storage].
 @ProviderFor(storage)
@@ -62,7 +62,7 @@ final storageProvider = AutoDisposeProvider<Storage>.internal(
 );
 
 typedef StorageRef = AutoDisposeProviderRef<Storage>;
-String _$realtimeHash() => r'6e989946f5bc8e1309ea64ab6179a75a896d7aec';
+String _$realtimeHash() => r'beaa1e2ff9e2f57547df1c89258bcf299b83edd4';
 
 /// See also [realtime].
 @ProviderFor(realtime)

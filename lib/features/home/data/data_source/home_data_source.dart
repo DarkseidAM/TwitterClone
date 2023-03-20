@@ -6,15 +6,18 @@ import 'package:twitter_clone/core/providers.dart';
 part 'home_data_source.g.dart';
 
 @riverpod
-HomeDataSource homeDataSource(HomeDataSourceRef ref) =>
-    HomeDataSourceImpl(account: ref.watch(accountProvider));
+HomeDataSource homeDataSource(HomeDataSourceRef ref) => HomeDataSourceImpl(
+      account: ref.watch(accountProvider),
+    );
 
 abstract class HomeDataSource {
   Future<model.Account?> currentUserAccount();
 }
 
 class HomeDataSourceImpl implements HomeDataSource {
-  const HomeDataSourceImpl({required Account account}) : _account = account;
+  const HomeDataSourceImpl({
+    required Account account,
+  }) : _account = account;
 
   final Account _account;
 

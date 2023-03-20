@@ -29,6 +29,7 @@ analyzer:
     - "dev/conductor/lib/proto/*"
     - "lib/**.g.dart"
     - "lib/**.gr.dart"
+    - "lib/**.freezed.dart"
 
 linter:
   rules:

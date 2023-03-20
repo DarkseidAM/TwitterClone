@@ -2,11 +2,9 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:twitter_clone/core/navigation/router_constants.dart';
 import 'package:twitter_clone/core/theme/theme.dart';
 import 'package:twitter_clone/core/utils/constants.dart';
 import 'package:twitter_clone/core/widgets/common_widgets.dart';
-import 'package:twitter_clone/core/widgets/loading_page.dart';
 import 'package:twitter_clone/features/auth/presentation/controller/auth_controller.dart';
 import 'package:twitter_clone/features/auth/presentation/widgets/auth_field.dart';
 
@@ -89,8 +87,7 @@ class _SingUpViewState extends ConsumerState<SignUpView> {
                             ),
                             recognizer: TapGestureRecognizer()
                               ..onTap = () {
-                                context.router
-                                    .pushNamed(RouterConstants.loginRoute);
+                                context.router.pop();
                               },
                           )
                         ],

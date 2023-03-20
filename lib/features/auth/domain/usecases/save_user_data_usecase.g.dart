@@ -1,24 +1,26 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'auth_data_source.dart';
+part of 'save_user_data_usecase.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$authDataSourceHash() => r'4caf2326cc51c1cfd90b587cb6416917c6f8c538';
+String _$saveUserDataUseCaseHash() =>
+    r'67e2d8638d1676069e00ec9c77665b59677add0b';
 
-/// See also [authDataSource].
-@ProviderFor(authDataSource)
-final authDataSourceProvider = AutoDisposeProvider<AuthDataSource>.internal(
-  authDataSource,
-  name: r'authDataSourceProvider',
+/// See also [saveUserDataUseCase].
+@ProviderFor(saveUserDataUseCase)
+final saveUserDataUseCaseProvider =
+    AutoDisposeProvider<SaveUserDataUseCase>.internal(
+  saveUserDataUseCase,
+  name: r'saveUserDataUseCaseProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$authDataSourceHash,
+      : _$saveUserDataUseCaseHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef AuthDataSourceRef = AutoDisposeProviderRef<AuthDataSource>;
+typedef SaveUserDataUseCaseRef = AutoDisposeProviderRef<SaveUserDataUseCase>;
 // ignore_for_file: unnecessary_raw_strings, subtype_of_sealed_class, invalid_use_of_internal_member, do_not_use_environment, prefer_const_constructors, public_member_api_docs, avoid_private_typedef_functions

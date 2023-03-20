@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+bool firstLogin = false;
+
 void showSnackBar(
   BuildContext context,
   String content,
@@ -10,3 +12,5 @@ void showSnackBar(
     ),
   );
 }
+
+String getNameFromEmail(String email) => email.split('@')[0];

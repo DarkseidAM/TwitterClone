@@ -7,7 +7,9 @@ import 'package:twitter_clone/core/navigation/router_constants.dart';
 import 'package:twitter_clone/core/typedef/failure.dart';
 import 'package:twitter_clone/core/typedef/type_defs.dart';
 import 'package:twitter_clone/core/utils/common_utils.dart';
+import 'package:twitter_clone/features/auth/data/models/user_model.dart';
 import 'package:twitter_clone/features/auth/domain/usecases/login_usecase.dart';
+import 'package:twitter_clone/features/auth/domain/usecases/save_user_data_usecase.dart';
 import 'package:twitter_clone/features/auth/domain/usecases/sign_up_usecase.dart';
 
 final AutoDisposeStateNotifierProvider<AuthController, bool>
@@ -17,18 +19,22 @@ final AutoDisposeStateNotifierProvider<AuthController, bool>
   return AuthController(
     signUpUseCase: ref.read(signUpUseCaseProvider),
     loginUseCase: ref.read(loginUseCaseProvider),
+    saveUserDataUseCase: ref.read(saveUserDataUseCaseProvider),
   );
 });
 
 class AuthController extends StateNotifier<bool> {
-  AuthController({
-    required SignUpUseCase signUpUseCase,
-    required LoginUseCase loginUseCase,
-  })  : _signUpUseCase = signUpUseCase,
+  AuthController(
+      {required SignUpUseCase signUpUseCase,
+      required LoginUseCase loginUseCase,
+      required SaveUserDataUseCase saveUserDataUseCase})
+      : _signUpUseCase = signUpUseCase,
         _loginUseCase = loginUseCase,
+        _saveUserDataUseCase = saveUserDataUseCase,
         super(false);
   final SignUpUseCase _signUpUseCase;
   final LoginUseCase _loginUseCase;
+  final SaveUserDataUseCase _saveUserDataUseCase;
 
   Future<void> signUp({
     required String email,
@@ -41,9 +47,27 @@ class AuthController extends StateNotifier<bool> {
     state = false;
     response.fold(
       (Failure l) => showSnackBar(context, l.message),
-      (model.Account r) {
-        showSnackBar(context, 'Account Created! Please login.');
-        context.router.pushNamed(RouterConstants.loginRoute);
+      (model.Account r) async {
+        final UserModel userModel = UserModel(
+          email: email,
+          name: getNameFromEmail(email),
+          followers: List<String>.empty(),
+          following: List<String>.empty(),
+          profilePic: '',
+          bannerPic: '',
+          uid: '',
+          bio: '',
+          isTwitterBlue: false,
+        );
+        final EitherFailure<void> response =
+            await _saveUserDataUseCase.invoke(userModel);
+        response.fold(
+          (Failure l) => showSnackBar(context, l.message),
+          (_) {
+            showSnackBar(context, 'Account Created! Please login.');
+            context.router.pushNamed(RouterConstants.loginRoute);
+          },
+        );
       },
     );
   }
@@ -60,6 +84,7 @@ class AuthController extends StateNotifier<bool> {
     response.fold(
       (Failure l) => showSnackBar(context, l.message),
       (model.Session r) {
+        firstLogin = true;
         context.router.pushNamed(RouterConstants.homeRoute);
       },
     );

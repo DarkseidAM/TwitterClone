@@ -6,7 +6,6 @@ import 'package:twitter_clone/core/navigation/router_constants.dart';
 import 'package:twitter_clone/core/theme/theme.dart';
 import 'package:twitter_clone/core/utils/constants.dart';
 import 'package:twitter_clone/core/widgets/common_widgets.dart';
-import 'package:twitter_clone/core/widgets/loading_page.dart';
 import 'package:twitter_clone/features/auth/presentation/controller/auth_controller.dart';
 import 'package:twitter_clone/features/auth/presentation/widgets/auth_field.dart';
 

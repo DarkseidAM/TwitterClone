@@ -1,11 +1,14 @@
 import 'package:appwrite/models.dart' as model;
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:twitter_clone/core/navigation/app_router.gr.dart';
 import 'package:twitter_clone/core/navigation/router_constants.dart';
-import 'package:twitter_clone/core/widgets/error_page.dart';
-import 'package:twitter_clone/core/widgets/loading_page.dart';
+import 'package:twitter_clone/core/usecase/usecase.dart';
+import 'package:twitter_clone/core/utils/common_utils.dart';
+import 'package:twitter_clone/core/widgets/common_widgets.dart';
 import 'package:twitter_clone/features/auth/presentation/views/login_view.dart';
 import 'package:twitter_clone/features/auth/presentation/views/signup_view.dart';
+import 'package:twitter_clone/features/home/domain/usecases/current_user_account_usecase.dart';
 import 'package:twitter_clone/features/home/presentation/views/home_view.dart';
 
 @MaterialAutoRouter(
@@ -18,8 +21,8 @@ import 'package:twitter_clone/features/home/presentation/views/home_view.dart';
     ),
     AutoRoute(
       page: LoginView,
-      path: RouterConstants.loginRoute,
       initial: true,
+      path: RouterConstants.loginRoute,
       guards: <Type>[
         GetInitialRoute,
       ],
@@ -27,13 +30,16 @@ import 'package:twitter_clone/features/home/presentation/views/home_view.dart';
     AutoRoute(
       page: HomeView,
       path: RouterConstants.homeRoute,
+      guards: <Type>[
+        AuthenticatedRootGuard,
+      ],
     ),
     AutoRoute(
-      page: LoadingPage,
+      page: LoadingView,
       path: RouterConstants.loading,
     ),
     AutoRoute(
-      page: ErrorPage,
+      page: ErrorView,
       path: RouterConstants.error,
     ),
   ],
@@ -58,11 +64,36 @@ class GetInitialRoute extends AutoRouteGuard {
         }
       },
       error: (Object error, StackTrace stacktrace) {
-        router.pushNamed(RouterConstants.error);
+        router.push(ErrorRoute(error: error.toString()));
       },
       loading: () {
         router.pushNamed(RouterConstants.loading);
       },
     );
+  }
+}
+
+class AuthenticatedRootGuard extends AutoRouteGuard {
+  AuthenticatedRootGuard({
+    required CurrentUserAccountUseCase currentUserAccountUseCase,
+  }) : _currentUserAccountUseCase = currentUserAccountUseCase;
+  final CurrentUserAccountUseCase _currentUserAccountUseCase;
+
+  @override
+  Future<void> onNavigation(
+      NavigationResolver resolver, StackRouter router) async {
+    try {
+      final model.Account? account =
+          await _currentUserAccountUseCase.invoke(NoParams());
+      if (firstLogin) {
+        resolver.next();
+      } else if (account != null) {
+        resolver.next();
+      } else {
+        router.pushNamed(RouterConstants.loginRoute);
+      }
+    } catch (e) {
+      router.push(ErrorRoute(error: e.toString()));
+    }
   }
 }

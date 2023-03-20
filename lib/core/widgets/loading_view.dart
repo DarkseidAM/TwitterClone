@@ -11,8 +11,8 @@ class Loader extends StatelessWidget {
   }
 }
 
-class LoadingPage extends StatelessWidget {
-  const LoadingPage({super.key});
+class LoadingView extends StatelessWidget {
+  const LoadingView({super.key});
 
   @override
   Widget build(BuildContext context) {

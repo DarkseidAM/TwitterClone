@@ -1,15 +1,27 @@
+import 'dart:io';
+
+import 'package:auto_route/auto_route.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:http_proxy/http_proxy.dart';
+import 'package:logger/logger.dart';
 import 'package:twitter_clone/core/navigation/app_router.dart';
 import 'package:twitter_clone/core/navigation/app_router.gr.dart';
+import 'package:twitter_clone/core/providers.dart';
 import 'package:twitter_clone/core/theme/theme.dart';
+import 'package:twitter_clone/features/home/domain/usecases/current_user_account_usecase.dart';
 import 'package:twitter_clone/features/home/presentation/controller/home_controller.dart';
 
-void main() {
+void main() async {
   final WidgetsBinding widgetsBinding =
       WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
+  if (!kReleaseMode) {
+    final HttpProxy httpProxy = await HttpProxy.createHttpProxy();
+    HttpOverrides.global = httpProxy;
+  }
   runApp(
     const ProviderScope(
       child: RouterWidget(),
@@ -38,6 +50,9 @@ class _RouterWidgetState extends ConsumerState<RouterWidget> {
       getInitialRoute: GetInitialRoute(
         currentUserAccountProvider: ref.read(currentUserAccountProvider),
       ),
+      authenticatedRootGuard: AuthenticatedRootGuard(
+        currentUserAccountUseCase: ref.read(currentUserAccountUseCaseProvider),
+      ),
     );
   }
 
@@ -59,8 +74,37 @@ class MyApp extends ConsumerWidget {
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.theme,
-      routerDelegate: _appRouter?.delegate(),
+      routerDelegate: _appRouter?.delegate(
+        navigatorObservers: () => <NavigatorObserver>[
+          MyObserver(
+            logger: ref.read(loggerProvider),
+          ),
+        ],
+      ),
       routeInformationParser: _appRouter?.defaultRouteParser(),
     );
+  }
+}
+
+class MyObserver extends AutoRouterObserver {
+  MyObserver({
+    required Logger logger,
+  }) : _logger = logger;
+  final Logger _logger;
+
+  @override
+  void didPush(Route<dynamic> route, Route<dynamic>? previousRoute) {
+    _logger.d('New route pushed: ${route.settings.name}');
+  }
+
+  // only override to observer tab routes
+  @override
+  void didInitTabRoute(TabPageRoute route, TabPageRoute? previousRoute) {
+    _logger.d('Tab route visited: ${route.name}');
+  }
+
+  @override
+  void didChangeTabRoute(TabPageRoute route, TabPageRoute previousRoute) {
+    _logger.d('Tab route re-visited: ${route.name}');
   }
 }

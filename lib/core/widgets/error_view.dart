@@ -15,8 +15,8 @@ class ErrorText extends StatelessWidget {
   }
 }
 
-class ErrorPage extends StatelessWidget {
-  const ErrorPage({
+class ErrorView extends StatelessWidget {
+  const ErrorView({
     super.key,
     required this.error,
   });

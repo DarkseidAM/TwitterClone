@@ -12,16 +12,28 @@ Client client(ClientRef ref) => Client()
   ..setSelfSigned();
 
 @riverpod
-Account account(AccountRef ref) => Account(ref.watch(clientProvider));
+Account account(AccountRef ref) {
+  final Client client = ref.watch(clientProvider);
+  return Account(client);
+}
 
 @riverpod
-Databases database(DatabaseRef ref) => Databases(ref.watch(clientProvider));
+Databases databases(DatabasesRef ref) {
+  final Client client = ref.watch(clientProvider);
+  return Databases(client);
+}
 
 @riverpod
-Storage storage(StorageRef ref) => Storage(ref.watch(clientProvider));
+Storage storage(StorageRef ref) {
+  final Client client = ref.watch(clientProvider);
+  return Storage(client);
+}
 
 @riverpod
-Realtime realtime(RealtimeRef ref) => Realtime(ref.watch(clientProvider));
+Realtime realtime(RealtimeRef ref) {
+  final Client client = ref.watch(clientProvider);
+  return Realtime(client);
+}
 
 @riverpod
 Logger logger(LoggerRef ref) => Logger(

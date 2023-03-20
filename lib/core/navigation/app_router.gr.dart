@@ -11,11 +11,10 @@
 // ignore_for_file: type=lint
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'package:auto_route/auto_route.dart' as _i6;
-import 'package:flutter/material.dart' as _i7;
-import 'package:twitter_clone/core/navigation/app_router.dart' as _i8;
-import 'package:twitter_clone/core/widgets/error_page.dart' as _i5;
-import 'package:twitter_clone/core/widgets/loading_page.dart' as _i4;
+import 'package:auto_route/auto_route.dart' as _i5;
+import 'package:flutter/material.dart' as _i6;
+import 'package:twitter_clone/core/navigation/app_router.dart' as _i7;
+import 'package:twitter_clone/core/widgets/common_widgets.dart' as _i4;
 import 'package:twitter_clone/features/auth/presentation/views/login_view.dart'
     as _i2;
 import 'package:twitter_clone/features/auth/presentation/views/signup_view.dart'
@@ -23,45 +22,48 @@ import 'package:twitter_clone/features/auth/presentation/views/signup_view.dart'
 import 'package:twitter_clone/features/home/presentation/views/home_view.dart'
     as _i3;
 
-class AppRouter extends _i6.RootStackRouter {
+class AppRouter extends _i5.RootStackRouter {
   AppRouter({
-    _i7.GlobalKey<_i7.NavigatorState>? navigatorKey,
+    _i6.GlobalKey<_i6.NavigatorState>? navigatorKey,
     required this.getInitialRoute,
+    required this.authenticatedRootGuard,
   }) : super(navigatorKey);
 
-  final _i8.GetInitialRoute getInitialRoute;
+  final _i7.GetInitialRoute getInitialRoute;
+
+  final _i7.AuthenticatedRootGuard authenticatedRootGuard;
 
   @override
-  final Map<String, _i6.PageFactory> pagesMap = {
+  final Map<String, _i5.PageFactory> pagesMap = {
     SignUpRoute.name: (routeData) {
-      return _i6.MaterialPageX<dynamic>(
+      return _i5.MaterialPageX<dynamic>(
         routeData: routeData,
         child: const _i1.SignUpView(),
       );
     },
     LoginRoute.name: (routeData) {
-      return _i6.MaterialPageX<dynamic>(
+      return _i5.MaterialPageX<dynamic>(
         routeData: routeData,
         child: const _i2.LoginView(),
       );
     },
     HomeRoute.name: (routeData) {
-      return _i6.MaterialPageX<dynamic>(
+      return _i5.MaterialPageX<dynamic>(
         routeData: routeData,
         child: const _i3.HomeView(),
       );
     },
-    LoadingPage.name: (routeData) {
-      return _i6.MaterialPageX<dynamic>(
+    LoadingRoute.name: (routeData) {
+      return _i5.MaterialPageX<dynamic>(
         routeData: routeData,
-        child: const _i4.LoadingPage(),
+        child: const _i4.LoadingView(),
       );
     },
-    ErrorPage.name: (routeData) {
-      final args = routeData.argsAs<ErrorPageArgs>();
-      return _i6.MaterialPageX<dynamic>(
+    ErrorRoute.name: (routeData) {
+      final args = routeData.argsAs<ErrorRouteArgs>();
+      return _i5.MaterialPageX<dynamic>(
         routeData: routeData,
-        child: _i5.ErrorPage(
+        child: _i4.ErrorView(
           key: args.key,
           error: args.error,
         ),
@@ -70,34 +72,41 @@ class AppRouter extends _i6.RootStackRouter {
   };
 
   @override
-  List<_i6.RouteConfig> get routes => [
-        _i6.RouteConfig(
+  List<_i5.RouteConfig> get routes => [
+        _i5.RouteConfig(
+          '/#redirect',
+          path: '/',
+          redirectTo: '/login',
+          fullMatch: true,
+        ),
+        _i5.RouteConfig(
           SignUpRoute.name,
           path: '/signUp',
         ),
-        _i6.RouteConfig(
+        _i5.RouteConfig(
           LoginRoute.name,
-          path: '/',
+          path: '/login',
           guards: [getInitialRoute],
         ),
-        _i6.RouteConfig(
+        _i5.RouteConfig(
           HomeRoute.name,
           path: '/home',
+          guards: [authenticatedRootGuard],
         ),
-        _i6.RouteConfig(
-          LoadingPage.name,
+        _i5.RouteConfig(
+          LoadingRoute.name,
           path: '/loading',
         ),
-        _i6.RouteConfig(
-          ErrorPage.name,
-          path: 'error',
+        _i5.RouteConfig(
+          ErrorRoute.name,
+          path: '/error',
         ),
       ];
 }
 
 /// generated route for
 /// [_i1.SignUpView]
-class SignUpRoute extends _i6.PageRouteInfo<void> {
+class SignUpRoute extends _i5.PageRouteInfo<void> {
   const SignUpRoute()
       : super(
           SignUpRoute.name,
@@ -109,11 +118,11 @@ class SignUpRoute extends _i6.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i2.LoginView]
-class LoginRoute extends _i6.PageRouteInfo<void> {
+class LoginRoute extends _i5.PageRouteInfo<void> {
   const LoginRoute()
       : super(
           LoginRoute.name,
-          path: '/',
+          path: '/login',
         );
 
   static const String name = 'LoginRoute';
@@ -121,7 +130,7 @@ class LoginRoute extends _i6.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i3.HomeView]
-class HomeRoute extends _i6.PageRouteInfo<void> {
+class HomeRoute extends _i5.PageRouteInfo<void> {
   const HomeRoute()
       : super(
           HomeRoute.name,
@@ -132,47 +141,47 @@ class HomeRoute extends _i6.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i4.LoadingPage]
-class LoadingPage extends _i6.PageRouteInfo<void> {
-  const LoadingPage()
+/// [_i4.LoadingView]
+class LoadingRoute extends _i5.PageRouteInfo<void> {
+  const LoadingRoute()
       : super(
-          LoadingPage.name,
+          LoadingRoute.name,
           path: '/loading',
         );
 
-  static const String name = 'LoadingPage';
+  static const String name = 'LoadingRoute';
 }
 
 /// generated route for
-/// [_i5.ErrorPage]
-class ErrorPage extends _i6.PageRouteInfo<ErrorPageArgs> {
-  ErrorPage({
-    _i7.Key? key,
+/// [_i4.ErrorView]
+class ErrorRoute extends _i5.PageRouteInfo<ErrorRouteArgs> {
+  ErrorRoute({
+    _i6.Key? key,
     required String error,
   }) : super(
-          ErrorPage.name,
-          path: 'error',
-          args: ErrorPageArgs(
+          ErrorRoute.name,
+          path: '/error',
+          args: ErrorRouteArgs(
             key: key,
             error: error,
           ),
         );
 
-  static const String name = 'ErrorPage';
+  static const String name = 'ErrorRoute';
 }
 
-class ErrorPageArgs {
-  const ErrorPageArgs({
+class ErrorRouteArgs {
+  const ErrorRouteArgs({
     this.key,
     required this.error,
   });
 
-  final _i7.Key? key;
+  final _i6.Key? key;
 
   final String error;
 
   @override
   String toString() {
-    return 'ErrorPageArgs{key: $key, error: $error}';
+    return 'ErrorRouteArgs{key: $key, error: $error}';
   }
 }
