@@ -1,16 +1,14 @@
-import 'dart:io';
-
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:http_proxy/http_proxy.dart';
 import 'package:logger/logger.dart';
 import 'package:twitter_clone/core/navigation/app_router.dart';
 import 'package:twitter_clone/core/navigation/app_router.gr.dart';
 import 'package:twitter_clone/core/providers.dart';
 import 'package:twitter_clone/core/theme/theme.dart';
+import 'package:twitter_clone/core/utils/custom_proxy.dart';
 import 'package:twitter_clone/features/home/domain/usecases/current_user_account_usecase.dart';
 import 'package:twitter_clone/features/home/presentation/controller/home_controller.dart';
 
@@ -18,9 +16,13 @@ void main() async {
   final WidgetsBinding widgetsBinding =
       WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
-  if (!kReleaseMode) {
-    final HttpProxy httpProxy = await HttpProxy.createHttpProxy();
-    HttpOverrides.global = httpProxy;
+  if (kDebugMode) {
+    final CustomProxy httpProxy = CustomProxy(
+      ipAddress: '10.252.115.199',
+      port: 8888,
+      allowBadCertificates: true,
+    );
+    httpProxy.enable();
   }
   runApp(
     const ProviderScope(
