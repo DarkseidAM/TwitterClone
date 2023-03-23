@@ -1,5 +1,7 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 
+@RoutePage()
 class Loader extends StatelessWidget {
   const Loader({super.key});
 
@@ -11,6 +13,7 @@ class Loader extends StatelessWidget {
   }
 }
 
+@RoutePage()
 class LoadingView extends StatelessWidget {
   const LoadingView({super.key});
 

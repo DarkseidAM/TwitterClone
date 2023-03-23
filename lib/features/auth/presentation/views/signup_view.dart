@@ -8,6 +8,7 @@ import 'package:twitter_clone/core/widgets/common_widgets.dart';
 import 'package:twitter_clone/features/auth/presentation/controller/auth_controller.dart';
 import 'package:twitter_clone/features/auth/presentation/widgets/auth_field.dart';
 
+@RoutePage()
 class SignUpView extends ConsumerStatefulWidget {
   const SignUpView({super.key});
 

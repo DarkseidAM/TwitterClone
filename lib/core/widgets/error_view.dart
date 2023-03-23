@@ -1,5 +1,7 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 
+@RoutePage()
 class ErrorText extends StatelessWidget {
   const ErrorText({
     super.key,
@@ -15,6 +17,7 @@ class ErrorText extends StatelessWidget {
   }
 }
 
+@RoutePage()
 class ErrorView extends StatelessWidget {
   const ErrorView({
     super.key,
