@@ -3,41 +3,41 @@ import 'package:logger/logger.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:twitter_clone/core/utils/constants.dart';
 
-part 'providers.g.dart';
+final Provider<Client> clientProvider =
+    Provider<Client>((ProviderRef<Client> ref) {
+  return Client()
+    ..setEndpoint(AppWriteConstants.endPoint)
+    ..setProject(AppWriteConstants.projectId)
+    ..setSelfSigned();
+});
 
-@riverpod
-Client client(ClientRef ref) => Client()
-  ..setEndpoint(AppWriteConstants.endPoint)
-  ..setProject(AppWriteConstants.projectId)
-  ..setSelfSigned();
-
-@riverpod
-Account account(AccountRef ref) {
+final Provider<Account> accountProvider =
+    Provider<Account>((ProviderRef<Account> ref) {
   final Client client = ref.watch(clientProvider);
   return Account(client);
-}
+});
 
-@riverpod
-Databases databases(DatabasesRef ref) {
+final Provider<Databases> databasesProvider =
+    Provider<Databases>((ProviderRef<Databases> ref) {
   final Client client = ref.watch(clientProvider);
   return Databases(client);
-}
+});
 
-@riverpod
-Storage storage(StorageRef ref) {
+final Provider<Storage> storageProvider =
+    Provider<Storage>((ProviderRef<Storage> ref) {
   final Client client = ref.watch(clientProvider);
   return Storage(client);
-}
+});
 
-@riverpod
-Realtime realtime(RealtimeRef ref) {
+final Provider<Realtime> realtimeProvider =
+    Provider<Realtime>((ProviderRef<Realtime> ref) {
   final Client client = ref.watch(clientProvider);
   return Realtime(client);
-}
+});
 
-@riverpod
-Logger logger(LoggerRef ref) => Logger(
-      printer: PrettyPrinter(
-        printTime: true,
-      ),
-    );
+final Provider<Logger> loggerProvider =
+    Provider<Logger>((ProviderRef<Logger> ref) => Logger(
+          printer: PrettyPrinter(
+            printTime: true,
+          ),
+        ));

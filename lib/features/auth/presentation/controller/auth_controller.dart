@@ -3,7 +3,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tuple/tuple.dart';
-import 'package:twitter_clone/core/navigation/router_constants.dart';
+import 'package:twitter_clone/core/navigation/app_router.gr.dart';
 import 'package:twitter_clone/core/typedef/failure.dart';
 import 'package:twitter_clone/core/typedef/type_defs.dart';
 import 'package:twitter_clone/core/utils/common_utils.dart';
@@ -12,14 +12,13 @@ import 'package:twitter_clone/features/auth/domain/usecases/login_usecase.dart';
 import 'package:twitter_clone/features/auth/domain/usecases/save_user_data_usecase.dart';
 import 'package:twitter_clone/features/auth/domain/usecases/sign_up_usecase.dart';
 
-final AutoDisposeStateNotifierProvider<AuthController, bool>
-    authControllerProvider =
-    StateNotifierProvider.autoDispose<AuthController, bool>(
+final StateNotifierProvider<AuthController, bool> authControllerProvider =
+    StateNotifierProvider<AuthController, bool>(
         (StateNotifierProviderRef<AuthController, bool> ref) {
   return AuthController(
-    signUpUseCase: ref.read(signUpUseCaseProvider),
-    loginUseCase: ref.read(loginUseCaseProvider),
-    saveUserDataUseCase: ref.read(saveUserDataUseCaseProvider),
+    signUpUseCase: ref.watch(signUpUseCaseProvider),
+    loginUseCase: ref.watch(loginUseCaseProvider),
+    saveUserDataUseCase: ref.watch(saveUserDataUseCaseProvider),
   );
 });
 
@@ -55,7 +54,7 @@ class AuthController extends StateNotifier<bool> {
           following: List<String>.empty(),
           profilePic: '',
           bannerPic: '',
-          uid: '',
+          uid: r.$id,
           bio: '',
           isTwitterBlue: false,
         );
@@ -65,7 +64,7 @@ class AuthController extends StateNotifier<bool> {
           (Failure l) => showSnackBar(context, l.message),
           (_) {
             showSnackBar(context, 'Account Created! Please login.');
-            context.router.pushNamed(RouterConstants.loginRoute);
+            context.router.pop();
           },
         );
       },
@@ -85,7 +84,7 @@ class AuthController extends StateNotifier<bool> {
       (Failure l) => showSnackBar(context, l.message),
       (model.Session r) {
         firstLogin = true;
-        context.router.pushNamed(RouterConstants.homeRoute);
+        context.router.replace(const HomeRoute());
       },
     );
   }

@@ -3,18 +3,16 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:twitter_clone/core/usecase/usecase.dart';
 import 'package:twitter_clone/features/home/domain/usecases/current_user_account_usecase.dart';
 
-final AutoDisposeStateNotifierProvider<HomeController, bool>
-    homeControllerProvider =
-    StateNotifierProvider.autoDispose<HomeController, bool>(
+final StateNotifierProvider<HomeController, bool> homeControllerProvider =
+    StateNotifierProvider<HomeController, bool>(
         (StateNotifierProviderRef<HomeController, bool> ref) {
   return HomeController(
-    currentUserAccountUseCase: ref.read(currentUserAccountUseCaseProvider),
+    currentUserAccountUseCase: ref.watch(currentUserAccountUseCaseProvider),
   );
 });
 
-final AutoDisposeFutureProvider<Future<model.Account?>>
-    currentUserAccountProvider = FutureProvider.autoDispose(
-        (AutoDisposeFutureProviderRef<Future<model.Account?>> ref) {
+final FutureProvider<model.Account?> currentUserAccountProvider =
+    FutureProvider<model.Account?>((FutureProviderRef<model.Account?> ref) {
   final HomeController homeController =
       ref.watch(homeControllerProvider.notifier);
   return homeController.currentUser();

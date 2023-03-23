@@ -6,13 +6,13 @@ import 'package:twitter_clone/core/typedef/failure.dart';
 import 'package:twitter_clone/core/utils/constants.dart';
 import 'package:twitter_clone/features/auth/data/models/user_model.dart';
 
-part 'auth_data_source.g.dart';
-
-@riverpod
-AuthDataSource authDataSource(AuthDataSourceRef ref) => AuthDataSourceImpl(
-      account: ref.watch(accountProvider),
-      db: ref.watch(databasesProvider),
-    );
+final Provider<AuthDataSource> authDataSourceProvider =
+    Provider<AuthDataSource>((ProviderRef<AuthDataSource> ref) {
+  return AuthDataSourceImpl(
+    account: ref.watch(accountProvider),
+    db: ref.watch(databasesProvider),
+  );
+});
 
 abstract class AuthDataSource {
   Future<model.Account> signUp({
@@ -77,7 +77,7 @@ class AuthDataSourceImpl implements AuthDataSource {
       return _db.createDocument(
         databaseId: AppWriteConstants.databaseId,
         collectionId: AppWriteConstants.usersCollection,
-        documentId: ID.unique(),
+        documentId: userModel.uid,
         data: userModel.toMap(),
       );
     } on AppwriteException catch (e, stackTrace) {

@@ -3,8 +3,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:twitter_clone/core/navigation/app_router.gr.dart';
 import 'package:twitter_clone/core/theme/theme.dart';
 import 'package:twitter_clone/core/utils/constants.dart';
+import 'package:twitter_clone/core/widgets/dynamic_app_bar.dart';
 
 @RoutePage()
 class HomeView extends ConsumerStatefulWidget {
@@ -15,13 +17,27 @@ class HomeView extends ConsumerStatefulWidget {
 }
 
 class _HomeViewState extends ConsumerState<HomeView> {
-  final AppBar _appBar = UIConstants.appBarWithAutoRoute();
+  late final GlobalKey<ScaffoldState> _globalKey;
+
+  @override
+  void initState() {
+    super.initState();
+    _globalKey = GlobalKey();
+  }
 
   @override
   Widget build(BuildContext context) {
     return AutoTabsScaffold(
-      routes: const <PageRouteInfo>[],
-      appBarBuilder: (_, __) => _appBar,
+      key: _globalKey,
+      routes: const <PageRouteInfo>[
+        EmptyRoute(),
+        EmptyRoute(),
+        EmptyRoute(),
+      ],
+      appBarBuilder: (_, __) => DynamicAppBar(
+        globalKey: _globalKey,
+        leadingWidget: const AutoLeadingButton(),
+      ),
       bottomNavigationBuilder: (_, TabsRouter tabsRouter) => CupertinoTabBar(
         currentIndex: tabsRouter.activeIndex,
         onTap: tabsRouter.setActiveIndex,
@@ -71,7 +87,9 @@ class _HomeViewState extends ConsumerState<HomeView> {
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          context.router.push(const CreateTweetRoute());
+        },
         child: const Icon(
           Icons.add,
           color: Pallete.whiteColor,

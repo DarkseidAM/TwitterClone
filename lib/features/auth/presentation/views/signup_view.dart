@@ -3,7 +3,6 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:twitter_clone/core/theme/theme.dart';
-import 'package:twitter_clone/core/utils/constants.dart';
 import 'package:twitter_clone/core/widgets/common_widgets.dart';
 import 'package:twitter_clone/features/auth/presentation/controller/auth_controller.dart';
 import 'package:twitter_clone/features/auth/presentation/widgets/auth_field.dart';
@@ -17,9 +16,15 @@ class SignUpView extends ConsumerStatefulWidget {
 }
 
 class _SingUpViewState extends ConsumerState<SignUpView> {
-  final AppBar appBar = UIConstants.appBar();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  late final GlobalKey<ScaffoldState> _globalKey;
+
+  @override
+  void initState() {
+    super.initState();
+    _globalKey = GlobalKey();
+  }
 
   @override
   void dispose() {
@@ -41,7 +46,10 @@ class _SingUpViewState extends ConsumerState<SignUpView> {
     final bool isLoading = ref.watch(authControllerProvider);
 
     return Scaffold(
-      appBar: appBar,
+      key: _globalKey,
+      appBar: DynamicAppBar(
+        globalKey: _globalKey,
+      ),
       body: isLoading
           ? const Loader()
           : Center(

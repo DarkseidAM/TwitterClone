@@ -5,7 +5,7 @@ import 'package:twitter_clone/core/theme/palette.dart';
 class AppTheme {
   AppTheme._();
   static ThemeData theme = ThemeData.dark().copyWith(
-    useMaterial3: true,
+    useMaterial3: false,
     scaffoldBackgroundColor: Pallete.backgroundColor,
     appBarTheme: const AppBarTheme(
       backgroundColor: Pallete.backgroundColor,

@@ -3,12 +3,12 @@ import 'package:appwrite/models.dart' as model;
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:twitter_clone/core/providers.dart';
 
-part 'home_data_source.g.dart';
-
-@riverpod
-HomeDataSource homeDataSource(HomeDataSourceRef ref) => HomeDataSourceImpl(
-      account: ref.watch(accountProvider),
-    );
+final Provider<HomeDataSource> homeDataSourceProvider =
+    Provider<HomeDataSource>((ProviderRef<HomeDataSource> ref) {
+  return HomeDataSourceImpl(
+    account: ref.watch(accountProvider),
+  );
+});
 
 abstract class HomeDataSource {
   Future<model.Account?> currentUserAccount();

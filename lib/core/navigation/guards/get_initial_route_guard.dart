@@ -3,15 +3,13 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:twitter_clone/core/navigation/app_router.gr.dart';
-import 'package:twitter_clone/core/navigation/router_constants.dart';
 import 'package:twitter_clone/core/usecase/usecase.dart';
 import 'package:twitter_clone/features/home/domain/usecases/current_user_account_usecase.dart';
 
-part 'get_initial_route_guard.g.dart';
-
-@riverpod
-GetInitialRoute getInitialRoute(GetInitialRouteRef ref) =>
-    GetInitialRoute(ref.read(currentUserAccountUseCaseProvider));
+final Provider<GetInitialRoute> getInitialRouteProvider =
+    Provider<GetInitialRoute>((ProviderRef<GetInitialRoute> ref) {
+  return GetInitialRoute(ref.watch(currentUserAccountUseCaseProvider));
+});
 
 class GetInitialRoute extends AutoRouteGuard {
   GetInitialRoute(
@@ -29,7 +27,7 @@ class GetInitialRoute extends AutoRouteGuard {
       if (account == null) {
         resolver.next();
       } else {
-        router.pushNamed(RouterConstants.homeRoute);
+        router.push(const HomeRoute());
       }
     } catch (e) {
       router.push(ErrorRoute(error: e.toString()));

@@ -8,11 +8,10 @@ import 'package:twitter_clone/features/auth/data/data_source/auth_data_source.da
 import 'package:twitter_clone/features/auth/data/models/user_model.dart';
 import 'package:twitter_clone/features/auth/domain/repository/auth_repository.dart';
 
-part 'auth_repository_impl.g.dart';
-
-@riverpod
-AuthRepository authRepository(AuthRepositoryRef ref) =>
-    AuthRepositoryImpl(authDataSource: ref.watch(authDataSourceProvider));
+final Provider<AuthRepository> authRepositoryProvider =
+    Provider<AuthRepository>((ProviderRef<AuthRepository> ref) {
+  return AuthRepositoryImpl(authDataSource: ref.watch(authDataSourceProvider));
+});
 
 class AuthRepositoryImpl implements AuthRepository {
   const AuthRepositoryImpl({required AuthDataSource authDataSource})

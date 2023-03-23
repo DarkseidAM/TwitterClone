@@ -1,17 +1,16 @@
 import 'package:appwrite/models.dart' as model;
 import 'package:auto_route/auto_route.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:twitter_clone/core/navigation/app_router.gr.dart';
-import 'package:twitter_clone/core/navigation/router_constants.dart';
 import 'package:twitter_clone/core/usecase/usecase.dart';
 import 'package:twitter_clone/core/utils/constants.dart';
 import 'package:twitter_clone/features/home/domain/usecases/current_user_account_usecase.dart';
 
-part 'authenticated_root_guard.g.dart';
-
-@riverpod
-AuthenticatedRootGuard authenticatedRootGuard(AuthenticatedRootGuardRef ref) =>
-    AuthenticatedRootGuard(ref.read(currentUserAccountUseCaseProvider));
+final Provider<AuthenticatedRootGuard> authenticatedRootGuardProvider =
+    Provider<AuthenticatedRootGuard>((ProviderRef<AuthenticatedRootGuard> ref) {
+  return AuthenticatedRootGuard(ref.watch(currentUserAccountUseCaseProvider));
+});
 
 class AuthenticatedRootGuard extends AutoRouteGuard {
   AuthenticatedRootGuard(this._currentUserAccountUseCase);
@@ -23,12 +22,13 @@ class AuthenticatedRootGuard extends AutoRouteGuard {
     try {
       final model.Account? account =
           await _currentUserAccountUseCase.invoke(NoParams());
+      FlutterNativeSplash.remove();
       if (firstLogin) {
         resolver.next();
       } else if (account != null) {
         resolver.next();
       } else {
-        router.pushNamed(RouterConstants.loginRoute);
+        router.push(const LoginRoute());
       }
     } catch (e) {
       router.push(ErrorRoute(error: e.toString()));

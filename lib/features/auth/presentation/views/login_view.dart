@@ -2,10 +2,9 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:twitter_clone/core/navigation/router_constants.dart';
+import 'package:twitter_clone/core/navigation/app_router.gr.dart';
 import 'package:twitter_clone/core/theme/theme.dart';
-import 'package:twitter_clone/core/utils/constants.dart';
-import 'package:twitter_clone/core/widgets/common_widgets.dart';
+import 'package:twitter_clone/core/widgets/common_widgets.dart' as common;
 import 'package:twitter_clone/features/auth/presentation/controller/auth_controller.dart';
 import 'package:twitter_clone/features/auth/presentation/widgets/auth_field.dart';
 
@@ -18,9 +17,15 @@ class LoginView extends ConsumerStatefulWidget {
 }
 
 class _LoginViewState extends ConsumerState<LoginView> {
-  final AppBar appBar = UIConstants.appBar();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  late final GlobalKey<ScaffoldState> _globalKey;
+
+  @override
+  void initState() {
+    super.initState();
+    _globalKey = GlobalKey();
+  }
 
   @override
   void dispose() {
@@ -42,61 +47,65 @@ class _LoginViewState extends ConsumerState<LoginView> {
     final bool isLoading = ref.watch(authControllerProvider);
 
     return Scaffold(
-      appBar: appBar,
+      key: _globalKey,
+      appBar: common.DynamicAppBar(
+        globalKey: _globalKey,
+      ),
       body: isLoading
-          ? const Loader()
+          ? const common.Loader()
           : Center(
               child: SingleChildScrollView(
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: Column(children: <Widget>[
-                    AuthField(
-                      controller: emailController,
-                      hintText: 'Email',
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    AuthField(
-                      controller: passwordController,
-                      hintText: 'Password',
-                    ),
-                    const SizedBox(
-                      height: 40,
-                    ),
-                    Align(
-                      alignment: Alignment.topRight,
-                      child: RoundedSmallButton(
-                        onTap: onLogin,
-                        label: 'Done',
+                  child: Column(
+                    children: <Widget>[
+                      AuthField(
+                        controller: emailController,
+                        hintText: 'Email',
                       ),
-                    ),
-                    const SizedBox(
-                      height: 40,
-                    ),
-                    RichText(
-                      text: TextSpan(
-                        text: "Don't have an account?",
-                        style: const TextStyle(
-                          fontSize: 16,
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      AuthField(
+                        controller: passwordController,
+                        hintText: 'Password',
+                      ),
+                      const SizedBox(
+                        height: 40,
+                      ),
+                      Align(
+                        alignment: Alignment.topRight,
+                        child: common.RoundedSmallButton(
+                          onTap: onLogin,
+                          label: 'Done',
                         ),
-                        children: <InlineSpan>[
-                          TextSpan(
-                            text: ' Sign Up',
-                            style: const TextStyle(
-                              color: Pallete.blueColor,
-                              fontSize: 16,
-                            ),
-                            recognizer: TapGestureRecognizer()
-                              ..onTap = () {
-                                context.router
-                                    .pushNamed(RouterConstants.signUpRoute);
-                              },
-                          )
-                        ],
                       ),
-                    ),
-                  ]),
+                      const SizedBox(
+                        height: 40,
+                      ),
+                      RichText(
+                        text: TextSpan(
+                          text: "Don't have an account?",
+                          style: const TextStyle(
+                            fontSize: 16,
+                          ),
+                          children: <InlineSpan>[
+                            TextSpan(
+                              text: ' Sign Up',
+                              style: const TextStyle(
+                                color: Pallete.blueColor,
+                                fontSize: 16,
+                              ),
+                              recognizer: TapGestureRecognizer()
+                                ..onTap = () {
+                                  context.router.push(const SignUpRoute());
+                                },
+                            )
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),

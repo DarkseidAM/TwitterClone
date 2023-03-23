@@ -5,13 +5,13 @@ import 'package:twitter_clone/core/navigation/guards/authenticated_root_guard.da
 import 'package:twitter_clone/core/navigation/guards/get_initial_route_guard.dart';
 import 'package:twitter_clone/core/navigation/router_constants.dart';
 
-part 'app_router.g.dart';
-
-@riverpod
-AppRouter appRouter(AppRouterRef ref) => AppRouter(
-      ref.read(getInitialRouteProvider),
-      ref.read(authenticatedRootGuardProvider),
-    );
+final Provider<AppRouter> appRouterProvider =
+    Provider<AppRouter>((ProviderRef<AppRouter> ref) {
+  return AppRouter(
+    ref.watch(getInitialRouteProvider),
+    ref.watch(authenticatedRootGuardProvider),
+  );
+});
 
 @AutoRouterConfig(
   replaceInRouteName: 'View,Route',
@@ -44,6 +44,17 @@ class AppRouter extends $AppRouter {
       guards: <AutoRouteGuard>[
         _authenticatedRootGuard,
       ],
+      children: <AutoRoute>[
+        AutoRoute(
+          page: EmptyRoute.page,
+          path: 'empty',
+        ),
+      ],
+    ),
+    AutoRoute(
+      page: CreateTweetRoute.page,
+      path: RouterConstants.tweet,
+      fullscreenDialog: true,
     ),
     AutoRoute(
       page: LoadingRoute.page,

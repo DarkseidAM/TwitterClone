@@ -3,11 +3,10 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:twitter_clone/features/home/data/data_source/home_data_source.dart';
 import 'package:twitter_clone/features/home/domain/repository/home_repository.dart';
 
-part 'home_repository_impl.g.dart';
-
-@riverpod
-HomeRepository homeRepository(HomeRepositoryRef ref) =>
-    HomeRepositoryImpl(homeDataSource: ref.watch(homeDataSourceProvider));
+final Provider<HomeRepository> homeRepositoryProvider =
+    Provider<HomeRepository>((ProviderRef<HomeRepository> ref) {
+  return HomeRepositoryImpl(homeDataSource: ref.watch(homeDataSourceProvider));
+});
 
 class HomeRepositoryImpl implements HomeRepository {
   const HomeRepositoryImpl({required HomeDataSource homeDataSource})

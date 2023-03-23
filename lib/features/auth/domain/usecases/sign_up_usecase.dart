@@ -6,11 +6,10 @@ import 'package:twitter_clone/core/usecase/usecase.dart';
 import 'package:twitter_clone/features/auth/data/repository/auth_repository_impl.dart';
 import 'package:twitter_clone/features/auth/domain/repository/auth_repository.dart';
 
-part 'sign_up_usecase.g.dart';
-
-@riverpod
-SignUpUseCase signUpUseCase(SignUpUseCaseRef ref) =>
-    SignUpUseCase(authRepository: ref.watch(authRepositoryProvider));
+final Provider<SignUpUseCase> signUpUseCaseProvider =
+    Provider<SignUpUseCase>((ProviderRef<SignUpUseCase> ref) {
+  return SignUpUseCase(authRepository: ref.watch(authRepositoryProvider));
+});
 
 class SignUpUseCase
     implements EitherUseCase<Tuple2<String, String>, model.Account> {
