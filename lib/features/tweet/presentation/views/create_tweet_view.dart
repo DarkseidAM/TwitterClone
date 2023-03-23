@@ -26,8 +26,8 @@ class _CreateTweetViewState extends ConsumerState<CreateTweetView> {
 
   @override
   Widget build(BuildContext context) {
-    final UserModel? currentUser = ref.watch(currentUserDetailsProvider).value;
-    print(currentUser);
+    final UserModel? currentUser =
+        ref.watch(currentUserDetailsProvider).asData?.value;
     return Scaffold(
       appBar: DynamicAppBar(
         globalKey: _globalKey,

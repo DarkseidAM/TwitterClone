@@ -19,7 +19,7 @@ void main() async {
   }
   if (kDebugMode) {
     final CustomProxy httpProxy = CustomProxy(
-      ipAddress: '10.252.115.199',
+      ipAddress: '192.168.0.211',
       port: 8888,
       allowBadCertificates: true,
     );

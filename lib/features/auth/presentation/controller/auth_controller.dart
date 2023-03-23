@@ -83,7 +83,6 @@ class AuthController extends StateNotifier<bool> {
     response.fold(
       (Failure l) => showSnackBar(context, l.message),
       (model.Session r) {
-        firstLogin = true;
         context.router.replace(const HomeRoute());
       },
     );
