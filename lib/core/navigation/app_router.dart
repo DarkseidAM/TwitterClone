@@ -46,6 +46,10 @@ class AppRouter extends $AppRouter {
       ],
       children: <AutoRoute>[
         AutoRoute(
+          page: TweetListRoute.page,
+          path: RouterConstants.tweetList,
+        ),
+        AutoRoute(
           page: EmptyRoute.page,
           path: 'empty',
         ),

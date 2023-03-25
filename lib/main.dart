@@ -4,13 +4,24 @@ import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_web_plugins/url_strategy.dart';
+import 'package:image_picker_android/image_picker_android.dart';
+import 'package:image_picker_platform_interface/image_picker_platform_interface.dart';
 import 'package:logger/logger.dart';
 import 'package:twitter_clone/core/navigation/app_router.dart';
 import 'package:twitter_clone/core/providers.dart';
 import 'package:twitter_clone/core/theme/theme.dart';
 import 'package:twitter_clone/core/utils/custom_proxy.dart';
 
-void main() async {
+void main() {
+  initApp();
+  runApp(
+    const ProviderScope(
+      child: MyApp(),
+    ),
+  );
+}
+
+void initApp() {
   final WidgetsBinding widgetsBinding =
       WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
@@ -25,11 +36,11 @@ void main() async {
     );
     httpProxy.enable();
   }
-  runApp(
-    const ProviderScope(
-      child: MyApp(),
-    ),
-  );
+  final ImagePickerPlatform imagePickerImplementation =
+      ImagePickerPlatform.instance;
+  if (imagePickerImplementation is ImagePickerAndroid) {
+    imagePickerImplementation.useAndroidPhotoPicker = true;
+  }
 }
 
 class MyApp extends ConsumerWidget {

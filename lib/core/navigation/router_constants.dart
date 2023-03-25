@@ -6,4 +6,5 @@ class RouterConstants {
   static const String loading = '/loading';
   static const String error = '/error';
   static const String tweet = '/tweet';
+  static const String tweetList = 'tweetList';
 }

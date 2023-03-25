@@ -30,7 +30,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
     return AutoTabsScaffold(
       key: _globalKey,
       routes: const <PageRouteInfo>[
-        EmptyRoute(),
+        TweetListRoute(),
         EmptyRoute(),
         EmptyRoute(),
       ],

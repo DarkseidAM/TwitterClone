@@ -8,30 +8,32 @@
 // coverage:ignore-file
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'package:auto_route/auto_route.dart' as _i8;
-import 'package:flutter/material.dart' as _i9;
+import 'package:auto_route/auto_route.dart' as _i9;
+import 'package:flutter/material.dart' as _i10;
 import 'package:twitter_clone/core/widgets/error_view.dart' as _i1;
 import 'package:twitter_clone/core/widgets/loading_view.dart' as _i2;
 import 'package:twitter_clone/features/auth/presentation/views/login_view.dart'
-    as _i6;
-import 'package:twitter_clone/features/auth/presentation/views/signup_view.dart'
     as _i7;
+import 'package:twitter_clone/features/auth/presentation/views/signup_view.dart'
+    as _i8;
 import 'package:twitter_clone/features/home/presentation/views/home_view.dart'
-    as _i5;
+    as _i6;
 import 'package:twitter_clone/features/tweet/presentation/views/create_tweet_view.dart'
     as _i3;
 import 'package:twitter_clone/features/tweet/presentation/views/emty_view.dart'
     as _i4;
+import 'package:twitter_clone/features/tweet/presentation/views/tweet_list.dart'
+    as _i5;
 
-abstract class $AppRouter extends _i8.RootStackRouter {
-  $AppRouter([_i9.GlobalKey<_i9.NavigatorState>? navigatorKey])
+abstract class $AppRouter extends _i9.RootStackRouter {
+  $AppRouter([_i10.GlobalKey<_i10.NavigatorState>? navigatorKey])
       : super(navigatorKey);
 
   @override
-  final Map<String, _i8.PageFactory> pagesMap = {
-    ErrorText.name: (routeData) {
-      final args = routeData.argsAs<ErrorTextArgs>();
-      return _i8.AutoRoutePage<dynamic>(
+  final Map<String, _i9.PageFactory> pagesMap = {
+    ErrorTextRoute.name: (routeData) {
+      final args = routeData.argsAs<ErrorTextRouteArgs>();
+      return _i9.AutoRoutePage<dynamic>(
         routeData: routeData,
         child: _i1.ErrorText(
           key: args.key,
@@ -41,7 +43,7 @@ abstract class $AppRouter extends _i8.RootStackRouter {
     },
     ErrorRoute.name: (routeData) {
       final args = routeData.argsAs<ErrorRouteArgs>();
-      return _i8.AutoRoutePage<dynamic>(
+      return _i9.AutoRoutePage<dynamic>(
         routeData: routeData,
         child: _i1.ErrorView(
           key: args.key,
@@ -50,45 +52,51 @@ abstract class $AppRouter extends _i8.RootStackRouter {
       );
     },
     Loader.name: (routeData) {
-      return _i8.AutoRoutePage<dynamic>(
+      return _i9.AutoRoutePage<dynamic>(
         routeData: routeData,
         child: const _i2.Loader(),
       );
     },
     LoadingRoute.name: (routeData) {
-      return _i8.AutoRoutePage<dynamic>(
+      return _i9.AutoRoutePage<dynamic>(
         routeData: routeData,
         child: const _i2.LoadingView(),
       );
     },
     CreateTweetRoute.name: (routeData) {
-      return _i8.AutoRoutePage<dynamic>(
+      return _i9.AutoRoutePage<dynamic>(
         routeData: routeData,
         child: const _i3.CreateTweetView(),
       );
     },
     EmptyRoute.name: (routeData) {
-      return _i8.AutoRoutePage<dynamic>(
+      return _i9.AutoRoutePage<dynamic>(
         routeData: routeData,
         child: const _i4.EmptyRoute(),
       );
     },
-    HomeRoute.name: (routeData) {
-      return _i8.AutoRoutePage<dynamic>(
+    TweetListRoute.name: (routeData) {
+      return _i9.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i5.HomeView(),
+        child: const _i5.TweetList(),
+      );
+    },
+    HomeRoute.name: (routeData) {
+      return _i9.AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const _i6.HomeView(),
       );
     },
     LoginRoute.name: (routeData) {
-      return _i8.AutoRoutePage<dynamic>(
+      return _i9.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i6.LoginView(),
+        child: const _i7.LoginView(),
       );
     },
     SignUpRoute.name: (routeData) {
-      return _i8.AutoRoutePage<dynamic>(
+      return _i9.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i7.SignUpView(),
+        child: const _i8.SignUpView(),
       );
     },
   };
@@ -96,49 +104,49 @@ abstract class $AppRouter extends _i8.RootStackRouter {
 
 /// generated route for
 /// [_i1.ErrorText]
-class ErrorText extends _i8.PageRouteInfo<ErrorTextArgs> {
-  ErrorText({
-    _i9.Key? key,
+class ErrorTextRoute extends _i9.PageRouteInfo<ErrorTextRouteArgs> {
+  ErrorTextRoute({
+    _i10.Key? key,
     required String error,
-    List<_i8.PageRouteInfo>? children,
+    List<_i9.PageRouteInfo>? children,
   }) : super(
-          ErrorText.name,
-          args: ErrorTextArgs(
+          ErrorTextRoute.name,
+          args: ErrorTextRouteArgs(
             key: key,
             error: error,
           ),
           initialChildren: children,
         );
 
-  static const String name = 'ErrorText';
+  static const String name = 'ErrorTextRoute';
 
-  static const _i8.PageInfo<ErrorTextArgs> page =
-      _i8.PageInfo<ErrorTextArgs>(name);
+  static const _i9.PageInfo<ErrorTextRouteArgs> page =
+      _i9.PageInfo<ErrorTextRouteArgs>(name);
 }
 
-class ErrorTextArgs {
-  const ErrorTextArgs({
+class ErrorTextRouteArgs {
+  const ErrorTextRouteArgs({
     this.key,
     required this.error,
   });
 
-  final _i9.Key? key;
+  final _i10.Key? key;
 
   final String error;
 
   @override
   String toString() {
-    return 'ErrorTextArgs{key: $key, error: $error}';
+    return 'ErrorTextRouteArgs{key: $key, error: $error}';
   }
 }
 
 /// generated route for
 /// [_i1.ErrorView]
-class ErrorRoute extends _i8.PageRouteInfo<ErrorRouteArgs> {
+class ErrorRoute extends _i9.PageRouteInfo<ErrorRouteArgs> {
   ErrorRoute({
-    _i9.Key? key,
+    _i10.Key? key,
     required String error,
-    List<_i8.PageRouteInfo>? children,
+    List<_i9.PageRouteInfo>? children,
   }) : super(
           ErrorRoute.name,
           args: ErrorRouteArgs(
@@ -150,8 +158,8 @@ class ErrorRoute extends _i8.PageRouteInfo<ErrorRouteArgs> {
 
   static const String name = 'ErrorRoute';
 
-  static const _i8.PageInfo<ErrorRouteArgs> page =
-      _i8.PageInfo<ErrorRouteArgs>(name);
+  static const _i9.PageInfo<ErrorRouteArgs> page =
+      _i9.PageInfo<ErrorRouteArgs>(name);
 }
 
 class ErrorRouteArgs {
@@ -160,7 +168,7 @@ class ErrorRouteArgs {
     required this.error,
   });
 
-  final _i9.Key? key;
+  final _i10.Key? key;
 
   final String error;
 
@@ -172,8 +180,8 @@ class ErrorRouteArgs {
 
 /// generated route for
 /// [_i2.Loader]
-class Loader extends _i8.PageRouteInfo<void> {
-  const Loader({List<_i8.PageRouteInfo>? children})
+class Loader extends _i9.PageRouteInfo<void> {
+  const Loader({List<_i9.PageRouteInfo>? children})
       : super(
           Loader.name,
           initialChildren: children,
@@ -181,13 +189,13 @@ class Loader extends _i8.PageRouteInfo<void> {
 
   static const String name = 'Loader';
 
-  static const _i8.PageInfo<void> page = _i8.PageInfo<void>(name);
+  static const _i9.PageInfo<void> page = _i9.PageInfo<void>(name);
 }
 
 /// generated route for
 /// [_i2.LoadingView]
-class LoadingRoute extends _i8.PageRouteInfo<void> {
-  const LoadingRoute({List<_i8.PageRouteInfo>? children})
+class LoadingRoute extends _i9.PageRouteInfo<void> {
+  const LoadingRoute({List<_i9.PageRouteInfo>? children})
       : super(
           LoadingRoute.name,
           initialChildren: children,
@@ -195,13 +203,13 @@ class LoadingRoute extends _i8.PageRouteInfo<void> {
 
   static const String name = 'LoadingRoute';
 
-  static const _i8.PageInfo<void> page = _i8.PageInfo<void>(name);
+  static const _i9.PageInfo<void> page = _i9.PageInfo<void>(name);
 }
 
 /// generated route for
 /// [_i3.CreateTweetView]
-class CreateTweetRoute extends _i8.PageRouteInfo<void> {
-  const CreateTweetRoute({List<_i8.PageRouteInfo>? children})
+class CreateTweetRoute extends _i9.PageRouteInfo<void> {
+  const CreateTweetRoute({List<_i9.PageRouteInfo>? children})
       : super(
           CreateTweetRoute.name,
           initialChildren: children,
@@ -209,13 +217,13 @@ class CreateTweetRoute extends _i8.PageRouteInfo<void> {
 
   static const String name = 'CreateTweetRoute';
 
-  static const _i8.PageInfo<void> page = _i8.PageInfo<void>(name);
+  static const _i9.PageInfo<void> page = _i9.PageInfo<void>(name);
 }
 
 /// generated route for
 /// [_i4.EmptyRoute]
-class EmptyRoute extends _i8.PageRouteInfo<void> {
-  const EmptyRoute({List<_i8.PageRouteInfo>? children})
+class EmptyRoute extends _i9.PageRouteInfo<void> {
+  const EmptyRoute({List<_i9.PageRouteInfo>? children})
       : super(
           EmptyRoute.name,
           initialChildren: children,
@@ -223,13 +231,27 @@ class EmptyRoute extends _i8.PageRouteInfo<void> {
 
   static const String name = 'EmptyRoute';
 
-  static const _i8.PageInfo<void> page = _i8.PageInfo<void>(name);
+  static const _i9.PageInfo<void> page = _i9.PageInfo<void>(name);
 }
 
 /// generated route for
-/// [_i5.HomeView]
-class HomeRoute extends _i8.PageRouteInfo<void> {
-  const HomeRoute({List<_i8.PageRouteInfo>? children})
+/// [_i5.TweetList]
+class TweetListRoute extends _i9.PageRouteInfo<void> {
+  const TweetListRoute({List<_i9.PageRouteInfo>? children})
+      : super(
+          TweetListRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'TweetListRoute';
+
+  static const _i9.PageInfo<void> page = _i9.PageInfo<void>(name);
+}
+
+/// generated route for
+/// [_i6.HomeView]
+class HomeRoute extends _i9.PageRouteInfo<void> {
+  const HomeRoute({List<_i9.PageRouteInfo>? children})
       : super(
           HomeRoute.name,
           initialChildren: children,
@@ -237,13 +259,13 @@ class HomeRoute extends _i8.PageRouteInfo<void> {
 
   static const String name = 'HomeRoute';
 
-  static const _i8.PageInfo<void> page = _i8.PageInfo<void>(name);
+  static const _i9.PageInfo<void> page = _i9.PageInfo<void>(name);
 }
 
 /// generated route for
-/// [_i6.LoginView]
-class LoginRoute extends _i8.PageRouteInfo<void> {
-  const LoginRoute({List<_i8.PageRouteInfo>? children})
+/// [_i7.LoginView]
+class LoginRoute extends _i9.PageRouteInfo<void> {
+  const LoginRoute({List<_i9.PageRouteInfo>? children})
       : super(
           LoginRoute.name,
           initialChildren: children,
@@ -251,13 +273,13 @@ class LoginRoute extends _i8.PageRouteInfo<void> {
 
   static const String name = 'LoginRoute';
 
-  static const _i8.PageInfo<void> page = _i8.PageInfo<void>(name);
+  static const _i9.PageInfo<void> page = _i9.PageInfo<void>(name);
 }
 
 /// generated route for
-/// [_i7.SignUpView]
-class SignUpRoute extends _i8.PageRouteInfo<void> {
-  const SignUpRoute({List<_i8.PageRouteInfo>? children})
+/// [_i8.SignUpView]
+class SignUpRoute extends _i9.PageRouteInfo<void> {
+  const SignUpRoute({List<_i9.PageRouteInfo>? children})
       : super(
           SignUpRoute.name,
           initialChildren: children,
@@ -265,5 +287,5 @@ class SignUpRoute extends _i8.PageRouteInfo<void> {
 
   static const String name = 'SignUpRoute';
 
-  static const _i8.PageInfo<void> page = _i8.PageInfo<void>(name);
+  static const _i9.PageInfo<void> page = _i9.PageInfo<void>(name);
 }
