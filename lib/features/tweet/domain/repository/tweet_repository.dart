@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:appwrite/appwrite.dart';
 import 'package:appwrite/models.dart' as model;
 import 'package:twitter_clone/core/typedef/type_defs.dart';
 import 'package:twitter_clone/features/tweet/data/models/tweet_model.dart';
@@ -10,4 +11,6 @@ abstract class TweetRepository {
   FutureEither<model.Document> shareTweet(Tweet tweet);
   Future<List<String>> uploadImage(List<File> files);
   Future<List<model.Document>> getTweets();
+  Stream<RealtimeMessage> getLatestTweet();
+  FutureEither<model.Document> likeTweet(Tweet tweet);
 }

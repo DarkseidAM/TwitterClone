@@ -29,12 +29,15 @@ void initApp() {
     usePathUrlStrategy();
   }
   if (kDebugMode) {
+    const String ipAddress = String.fromEnvironment('IP_ADDRESS');
     final CustomProxy httpProxy = CustomProxy(
-      ipAddress: '192.168.0.211',
+      ipAddress: ipAddress,
       port: 8888,
       allowBadCertificates: true,
     );
-    httpProxy.enable();
+    if (ipAddress.isNotEmpty) {
+      httpProxy.enable();
+    }
   }
   final ImagePickerPlatform imagePickerImplementation =
       ImagePickerPlatform.instance;

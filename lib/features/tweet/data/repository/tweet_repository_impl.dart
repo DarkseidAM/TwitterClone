@@ -50,4 +50,21 @@ class TweetRepositoryImpl implements TweetRepository {
   Future<List<model.Document>> getTweets() {
     return _tweetDataSource.getTweets();
   }
+
+  @override
+  Stream<RealtimeMessage> getLatestTweet() {
+    return _tweetDataSource.getLatestTweet();
+  }
+
+  @override
+  FutureEither<model.Document> likeTweet(Tweet tweet) async {
+    try {
+      final model.Document response = await _tweetDataSource.likeTweet(tweet);
+      return right(response);
+    } on AppwriteException catch (e, stackTrace) {
+      return left(Failure(e.message ?? e.toString(), stackTrace));
+    } catch (e, stackTrace) {
+      return left(Failure(e.toString(), stackTrace));
+    }
+  }
 }

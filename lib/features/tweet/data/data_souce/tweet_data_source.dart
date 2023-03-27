@@ -11,9 +11,9 @@ import 'package:twitter_clone/features/tweet/data/models/tweet_model.dart';
 final Provider<TweetDataSource> tweetDataSourceProvider =
     Provider<TweetDataSource>((ProviderRef<TweetDataSource> ref) {
   return TweetDataSourceImpl(
-    databases: ref.watch(databasesProvider),
-    storage: ref.watch(storageProvider),
-  );
+      databases: ref.watch(databasesProvider),
+      storage: ref.watch(storageProvider),
+      realtime: ref.watch(realtimeProvider));
 });
 
 abstract class TweetDataSource {
@@ -21,17 +21,22 @@ abstract class TweetDataSource {
   Future<model.Document> shareTweet(Tweet tweet);
   Future<List<String>> uploadImage(List<File> images);
   Future<List<model.Document>> getTweets();
+  Stream<RealtimeMessage> getLatestTweet();
+  Future<model.Document> likeTweet(Tweet tweet);
 }
 
 class TweetDataSourceImpl implements TweetDataSource {
   const TweetDataSourceImpl({
     required Databases databases,
     required Storage storage,
+    required Realtime realtime,
   })  : _databases = databases,
-        _storage = storage;
+        _storage = storage,
+        _realtime = realtime;
 
   final Databases _databases;
   final Storage _storage;
+  final Realtime _realtime;
 
   @override
   Future<model.Document> getUserData(String uid) {
@@ -84,8 +89,42 @@ class TweetDataSourceImpl implements TweetDataSource {
       final model.DocumentList documents = await _databases.listDocuments(
         databaseId: AppWriteConstants.databaseId,
         collectionId: AppWriteConstants.tweetsCollection,
+        queries: <String>[
+          Query.orderDesc('tweetedAt'),
+        ],
       );
       return documents.documents;
+    } on AppwriteException catch (e, stackTrace) {
+      throw Failure(e.message ?? e.toString(), stackTrace);
+    } catch (e, stackTrace) {
+      throw Failure(e.toString(), stackTrace);
+    }
+  }
+
+  @override
+  Stream<RealtimeMessage> getLatestTweet() {
+    try {
+      return _realtime.subscribe(<String>[
+        'databases.${AppWriteConstants.databaseId}.collections.${AppWriteConstants.tweetsCollection}.documents'
+      ]).stream;
+    } on AppwriteException catch (e, stackTrace) {
+      throw Failure(e.message ?? e.toString(), stackTrace);
+    } catch (e, stackTrace) {
+      throw Failure(e.toString(), stackTrace);
+    }
+  }
+
+  @override
+  Future<model.Document> likeTweet(Tweet tweet) {
+    try {
+      return _databases.updateDocument(
+        databaseId: AppWriteConstants.databaseId,
+        collectionId: AppWriteConstants.tweetsCollection,
+        documentId: tweet.id,
+        data: <String, List<String>>{
+          'likes': tweet.likes,
+        },
+      );
     } on AppwriteException catch (e, stackTrace) {
       throw Failure(e.message ?? e.toString(), stackTrace);
     } catch (e, stackTrace) {

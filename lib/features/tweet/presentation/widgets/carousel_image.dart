@@ -1,6 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:twitter_clone/core/theme/palette.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'package:twitter_clone/core/theme/theme.dart';
 
 class CarouselImage extends StatefulWidget {
   const CarouselImage({
@@ -48,23 +49,20 @@ class _CarouselImageState extends State<CarouselImage> {
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: widget._imageLinks
-                  .asMap()
-                  .entries
-                  .map((MapEntry<int, String> e) {
-                return Container(
-                  width: 12,
-                  height: 12,
-                  margin: const EdgeInsets.symmetric(
-                    horizontal: 4,
+              children: <Widget>[
+                AnimatedSmoothIndicator(
+                  activeIndex: _current,
+                  count: widget._imageLinks.length,
+                  effect: ScrollingDotsEffect(
+                    offset: 12,
+                    dotWidth: 12,
+                    dotHeight: 12,
+                    radius: 12,
+                    dotColor: Pallete.whiteColor.withOpacity(0.4),
+                    activeDotColor: Pallete.whiteColor.withOpacity(0.9),
                   ),
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Pallete.whiteColor
-                        .withOpacity(_current == e.key ? 0.9 : 0.4),
-                  ),
-                );
-              }).toList(),
+                ),
+              ],
             ),
           ],
         ),
