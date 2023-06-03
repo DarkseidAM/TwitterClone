@@ -1,4 +1,4 @@
-import 'package:appwrite/models.dart' as model;
+import 'package:appwrite/models.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:tuple/tuple.dart';
 import 'package:twitter_clone/core/typedef/type_defs.dart';
@@ -11,14 +11,13 @@ final Provider<SignUpUseCase> signUpUseCaseProvider =
   return SignUpUseCase(authRepository: ref.watch(authRepositoryProvider));
 });
 
-class SignUpUseCase
-    implements EitherUseCase<Tuple2<String, String>, model.Account> {
+class SignUpUseCase implements EitherUseCase<Tuple2<String, String>, User> {
   const SignUpUseCase({required AuthRepository authRepository})
       : _authRepository = authRepository;
   final AuthRepository _authRepository;
 
   @override
-  FutureEither<model.Account> invoke(Tuple2<String, String> params) {
+  FutureEither<User> invoke(Tuple2<String, String> params) {
     return _authRepository.signUp(email: params.item1, password: params.item2);
   }
 }

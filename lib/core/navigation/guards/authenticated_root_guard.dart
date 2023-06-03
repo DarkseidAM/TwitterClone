@@ -1,4 +1,4 @@
-import 'package:appwrite/models.dart' as model;
+import 'package:appwrite/models.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -19,8 +19,7 @@ class AuthenticatedRootGuard extends AutoRouteGuard {
   Future<void> onNavigation(
       NavigationResolver resolver, StackRouter router) async {
     try {
-      final model.Account? account =
-          await _currentUserAccountUseCase.invoke(NoParams());
+      final User? account = await _currentUserAccountUseCase.invoke(NoParams());
       FlutterNativeSplash.remove();
       if (account != null) {
         resolver.next();

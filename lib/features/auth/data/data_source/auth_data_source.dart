@@ -1,5 +1,5 @@
 import 'package:appwrite/appwrite.dart';
-import 'package:appwrite/models.dart' as model;
+import 'package:appwrite/models.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:twitter_clone/core/providers.dart';
 import 'package:twitter_clone/core/typedef/failure.dart';
@@ -15,12 +15,12 @@ final Provider<AuthDataSource> authDataSourceProvider =
 });
 
 abstract class AuthDataSource {
-  Future<model.Account> signUp({
+  Future<User> signUp({
     required String email,
     required String password,
   });
 
-  Future<model.Session> login({
+  Future<Session> login({
     required String email,
     required String password,
   });
@@ -39,8 +39,7 @@ class AuthDataSourceImpl implements AuthDataSource {
   final Databases _db;
 
   @override
-  Future<model.Account> signUp(
-      {required String email, required String password}) {
+  Future<User> signUp({required String email, required String password}) {
     try {
       return _account.create(
         userId: ID.unique(),
@@ -55,7 +54,7 @@ class AuthDataSourceImpl implements AuthDataSource {
   }
 
   @override
-  Future<model.Session> login({
+  Future<Session> login({
     required String email,
     required String password,
   }) {

@@ -1,5 +1,5 @@
-import 'package:appwrite/models.dart' as model;
+import 'package:appwrite/models.dart';
 
 abstract class HomeRepository {
-  Future<model.Account?> currentUserAccount();
+  Future<User?> currentUserAccount();
 }

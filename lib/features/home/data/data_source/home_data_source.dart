@@ -1,5 +1,5 @@
 import 'package:appwrite/appwrite.dart';
-import 'package:appwrite/models.dart' as model;
+import 'package:appwrite/models.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:twitter_clone/core/providers.dart';
 
@@ -11,7 +11,7 @@ final Provider<HomeDataSource> homeDataSourceProvider =
 });
 
 abstract class HomeDataSource {
-  Future<model.Account?> currentUserAccount();
+  Future<User?> currentUserAccount();
 }
 
 class HomeDataSourceImpl implements HomeDataSource {
@@ -22,7 +22,7 @@ class HomeDataSourceImpl implements HomeDataSource {
   final Account _account;
 
   @override
-  Future<model.Account?> currentUserAccount() async {
+  Future<User?> currentUserAccount() async {
     try {
       return _account.get();
     } catch (e) {

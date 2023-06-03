@@ -1,4 +1,4 @@
-import 'package:appwrite/models.dart' as model;
+import 'package:appwrite/models.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:twitter_clone/features/home/data/data_source/home_data_source.dart';
 import 'package:twitter_clone/features/home/domain/repository/home_repository.dart';
@@ -14,7 +14,7 @@ class HomeRepositoryImpl implements HomeRepository {
   final HomeDataSource _homeDataSource;
 
   @override
-  Future<model.Account?> currentUserAccount() async {
+  Future<User?> currentUserAccount() async {
     try {
       return await _homeDataSource.currentUserAccount();
     } catch (e) {

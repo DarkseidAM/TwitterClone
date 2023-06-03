@@ -3,7 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:twitter_clone/core/theme/theme.dart';
 import 'package:twitter_clone/core/utils/constants.dart';
 
-class DynamicAppBar extends StatelessWidget with PreferredSizeWidget {
+class DynamicAppBar extends StatelessWidget implements PreferredSizeWidget {
   const DynamicAppBar({
     super.key,
     required GlobalKey<ScaffoldState> globalKey,

@@ -1,4 +1,4 @@
-import 'package:appwrite/models.dart' as model;
+import 'package:appwrite/models.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:twitter_clone/core/usecase/usecase.dart';
 import 'package:twitter_clone/features/home/domain/usecases/current_user_account_usecase.dart';
@@ -11,8 +11,8 @@ final StateNotifierProvider<HomeController, bool> homeControllerProvider =
   );
 });
 
-final FutureProvider<model.Account?> currentUserAccountProvider =
-    FutureProvider<model.Account?>((FutureProviderRef<model.Account?> ref) {
+final FutureProvider<User?> currentUserAccountProvider =
+    FutureProvider<User?>((FutureProviderRef<User?> ref) {
   final HomeController homeController =
       ref.watch(homeControllerProvider.notifier);
   return homeController.currentUser();
@@ -25,6 +25,5 @@ class HomeController extends StateNotifier<bool> {
         super(false);
   final CurrentUserAccountUseCase _currentUserAccountUseCase;
 
-  Future<model.Account?> currentUser() =>
-      _currentUserAccountUseCase.invoke(NoParams());
+  Future<User?> currentUser() => _currentUserAccountUseCase.invoke(NoParams());
 }

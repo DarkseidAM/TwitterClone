@@ -1,4 +1,4 @@
-import 'package:appwrite/models.dart' as model;
+import 'package:appwrite/models.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -41,12 +41,12 @@ class AuthController extends StateNotifier<bool> {
     required BuildContext context,
   }) async {
     state = true;
-    final EitherFailure<model.Account> response =
+    final EitherFailure<User> response =
         await _signUpUseCase.invoke(Tuple2<String, String>(email, password));
     state = false;
     response.fold(
       (Failure l) => showSnackBar(context, l.message),
-      (model.Account r) async {
+      (User r) async {
         final UserModel userModel = UserModel(
           email: email,
           name: getNameFromEmail(email),
@@ -77,12 +77,12 @@ class AuthController extends StateNotifier<bool> {
     required BuildContext context,
   }) async {
     state = true;
-    final EitherFailure<model.Session> response =
+    final EitherFailure<Session> response =
         await _loginUseCase.invoke(Tuple2<String, String>(email, password));
     state = false;
     response.fold(
       (Failure l) => showSnackBar(context, l.message),
-      (model.Session r) {
+      (Session r) {
         context.router.replace(const HomeRoute());
       },
     );
