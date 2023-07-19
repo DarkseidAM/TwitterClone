@@ -1,4 +1,5 @@
 import 'package:any_link_preview/any_link_preview.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -37,18 +38,50 @@ class TweetCard extends ConsumerWidget {
                       children: <Widget>[
                         Container(
                           margin: const EdgeInsets.all(10),
-                          child: CircleAvatar(
-                            backgroundImage: NetworkImage(
-                              user.profilePic,
+                          child: CachedNetworkImage(
+                            imageUrl: user.profilePic,
+                            imageBuilder:
+                                (_, ImageProvider<Object> imageProvider) =>
+                                    CircleAvatar(
+                              backgroundImage: imageProvider,
+                              radius: 35,
                             ),
-                            radius: 35,
+                            placeholder: (_, __) => Container(
+                              color: Colors.black,
+                            ),
+                            errorWidget: (_, __, ___) =>
+                                const Icon(Icons.error),
                           ),
                         ),
                         Expanded(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
-                              //retweeted
+                              if (_tweet.retweetedBy.isNotEmpty)
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    SvgPicture.asset(
+                                      AssetsConstants.retweetIcon,
+                                      colorFilter: const ColorFilter.mode(
+                                        Pallete.greyColor,
+                                        BlendMode.srcIn,
+                                      ),
+                                      height: 20,
+                                    ),
+                                    const SizedBox(
+                                      width: 2,
+                                    ),
+                                    Text(
+                                      '${_tweet.retweetedBy} retweeted',
+                                      style: const TextStyle(
+                                        color: Pallete.greyColor,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               Row(
                                 children: <Widget>[
                                   Container(
@@ -115,7 +148,13 @@ class TweetCard extends ConsumerWidget {
                                     TweetIconButton(
                                       pathName: AssetsConstants.retweetIcon,
                                       text: _tweet.reshareCount.toString(),
-                                      onTap: () {},
+                                      onTap: () {
+                                        ref
+                                            .read(tweetControllerProvider
+                                                .notifier)
+                                            .reshareTweet(
+                                                _tweet, currentUser, context);
+                                      },
                                     ),
                                     LikeButton(
                                       size: 25,

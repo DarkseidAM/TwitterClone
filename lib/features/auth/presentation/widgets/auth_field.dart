@@ -6,14 +6,17 @@ class AuthField extends StatelessWidget {
     super.key,
     required this.controller,
     required this.hintText,
+    this.textObscured = false,
   });
   final TextEditingController controller;
   final String hintText;
+  final bool textObscured;
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
       controller: controller,
+      obscureText: textObscured,
       decoration: InputDecoration(
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(5),

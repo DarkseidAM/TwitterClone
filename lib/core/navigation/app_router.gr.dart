@@ -13,21 +13,20 @@ import 'package:flutter/material.dart' as _i10;
 import 'package:twitter_clone/core/widgets/error_view.dart' as _i1;
 import 'package:twitter_clone/core/widgets/loading_view.dart' as _i2;
 import 'package:twitter_clone/features/auth/presentation/views/login_view.dart'
-    as _i7;
-import 'package:twitter_clone/features/auth/presentation/views/signup_view.dart'
-    as _i8;
-import 'package:twitter_clone/features/home/presentation/views/home_view.dart'
-    as _i6;
-import 'package:twitter_clone/features/tweet/presentation/views/create_tweet_view.dart'
     as _i3;
-import 'package:twitter_clone/features/tweet/presentation/views/emty_view.dart'
+import 'package:twitter_clone/features/auth/presentation/views/signup_view.dart'
     as _i4;
-import 'package:twitter_clone/features/tweet/presentation/views/tweet_list.dart'
+import 'package:twitter_clone/features/home/presentation/views/home_view.dart'
     as _i5;
+import 'package:twitter_clone/features/tweet/presentation/views/create_tweet_view.dart'
+    as _i6;
+import 'package:twitter_clone/features/tweet/presentation/views/emty_view.dart'
+    as _i7;
+import 'package:twitter_clone/features/tweet/presentation/views/tweet_list.dart'
+    as _i8;
 
 abstract class $AppRouter extends _i9.RootStackRouter {
-  $AppRouter([_i10.GlobalKey<_i10.NavigatorState>? navigatorKey])
-      : super(navigatorKey);
+  $AppRouter({super.navigatorKey});
 
   @override
   final Map<String, _i9.PageFactory> pagesMap = {
@@ -63,40 +62,40 @@ abstract class $AppRouter extends _i9.RootStackRouter {
         child: const _i2.LoadingView(),
       );
     },
-    CreateTweetRoute.name: (routeData) {
-      return _i9.AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: const _i3.CreateTweetView(),
-      );
-    },
-    EmptyRoute.name: (routeData) {
-      return _i9.AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: const _i4.EmptyRoute(),
-      );
-    },
-    TweetListRoute.name: (routeData) {
-      return _i9.AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: const _i5.TweetList(),
-      );
-    },
-    HomeRoute.name: (routeData) {
-      return _i9.AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: const _i6.HomeView(),
-      );
-    },
     LoginRoute.name: (routeData) {
       return _i9.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i7.LoginView(),
+        child: const _i3.LoginView(),
       );
     },
     SignUpRoute.name: (routeData) {
       return _i9.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i8.SignUpView(),
+        child: const _i4.SignUpView(),
+      );
+    },
+    HomeRoute.name: (routeData) {
+      return _i9.AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const _i5.HomeView(),
+      );
+    },
+    CreateTweetRoute.name: (routeData) {
+      return _i9.AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const _i6.CreateTweetView(),
+      );
+    },
+    EmptyRoute.name: (routeData) {
+      return _i9.AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const _i7.EmptyRoute(),
+      );
+    },
+    TweetListRoute.name: (routeData) {
+      return _i9.AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const _i8.TweetList(),
       );
     },
   };
@@ -207,63 +206,7 @@ class LoadingRoute extends _i9.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i3.CreateTweetView]
-class CreateTweetRoute extends _i9.PageRouteInfo<void> {
-  const CreateTweetRoute({List<_i9.PageRouteInfo>? children})
-      : super(
-          CreateTweetRoute.name,
-          initialChildren: children,
-        );
-
-  static const String name = 'CreateTweetRoute';
-
-  static const _i9.PageInfo<void> page = _i9.PageInfo<void>(name);
-}
-
-/// generated route for
-/// [_i4.EmptyRoute]
-class EmptyRoute extends _i9.PageRouteInfo<void> {
-  const EmptyRoute({List<_i9.PageRouteInfo>? children})
-      : super(
-          EmptyRoute.name,
-          initialChildren: children,
-        );
-
-  static const String name = 'EmptyRoute';
-
-  static const _i9.PageInfo<void> page = _i9.PageInfo<void>(name);
-}
-
-/// generated route for
-/// [_i5.TweetList]
-class TweetListRoute extends _i9.PageRouteInfo<void> {
-  const TweetListRoute({List<_i9.PageRouteInfo>? children})
-      : super(
-          TweetListRoute.name,
-          initialChildren: children,
-        );
-
-  static const String name = 'TweetListRoute';
-
-  static const _i9.PageInfo<void> page = _i9.PageInfo<void>(name);
-}
-
-/// generated route for
-/// [_i6.HomeView]
-class HomeRoute extends _i9.PageRouteInfo<void> {
-  const HomeRoute({List<_i9.PageRouteInfo>? children})
-      : super(
-          HomeRoute.name,
-          initialChildren: children,
-        );
-
-  static const String name = 'HomeRoute';
-
-  static const _i9.PageInfo<void> page = _i9.PageInfo<void>(name);
-}
-
-/// generated route for
-/// [_i7.LoginView]
+/// [_i3.LoginView]
 class LoginRoute extends _i9.PageRouteInfo<void> {
   const LoginRoute({List<_i9.PageRouteInfo>? children})
       : super(
@@ -277,7 +220,7 @@ class LoginRoute extends _i9.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i8.SignUpView]
+/// [_i4.SignUpView]
 class SignUpRoute extends _i9.PageRouteInfo<void> {
   const SignUpRoute({List<_i9.PageRouteInfo>? children})
       : super(
@@ -286,6 +229,62 @@ class SignUpRoute extends _i9.PageRouteInfo<void> {
         );
 
   static const String name = 'SignUpRoute';
+
+  static const _i9.PageInfo<void> page = _i9.PageInfo<void>(name);
+}
+
+/// generated route for
+/// [_i5.HomeView]
+class HomeRoute extends _i9.PageRouteInfo<void> {
+  const HomeRoute({List<_i9.PageRouteInfo>? children})
+      : super(
+          HomeRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'HomeRoute';
+
+  static const _i9.PageInfo<void> page = _i9.PageInfo<void>(name);
+}
+
+/// generated route for
+/// [_i6.CreateTweetView]
+class CreateTweetRoute extends _i9.PageRouteInfo<void> {
+  const CreateTweetRoute({List<_i9.PageRouteInfo>? children})
+      : super(
+          CreateTweetRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'CreateTweetRoute';
+
+  static const _i9.PageInfo<void> page = _i9.PageInfo<void>(name);
+}
+
+/// generated route for
+/// [_i7.EmptyRoute]
+class EmptyRoute extends _i9.PageRouteInfo<void> {
+  const EmptyRoute({List<_i9.PageRouteInfo>? children})
+      : super(
+          EmptyRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'EmptyRoute';
+
+  static const _i9.PageInfo<void> page = _i9.PageInfo<void>(name);
+}
+
+/// generated route for
+/// [_i8.TweetList]
+class TweetListRoute extends _i9.PageRouteInfo<void> {
+  const TweetListRoute({List<_i9.PageRouteInfo>? children})
+      : super(
+          TweetListRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'TweetListRoute';
 
   static const _i9.PageInfo<void> page = _i9.PageInfo<void>(name);
 }

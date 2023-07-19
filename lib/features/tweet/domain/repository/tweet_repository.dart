@@ -13,4 +13,5 @@ abstract class TweetRepository {
   Future<List<model.Document>> getTweets();
   Stream<RealtimeMessage> getLatestTweet();
   FutureEither<model.Document> likeTweet(Tweet tweet);
+  FutureEither<model.Document> updateReshareCount(Tweet tweet);
 }

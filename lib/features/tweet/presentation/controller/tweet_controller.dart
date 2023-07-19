@@ -17,6 +17,7 @@ import 'package:twitter_clone/features/tweet/domain/usecases/get_latest_tweet.da
 import 'package:twitter_clone/features/tweet/domain/usecases/get_tweets_usecase.dart';
 import 'package:twitter_clone/features/tweet/domain/usecases/get_user_data_usecase.dart';
 import 'package:twitter_clone/features/tweet/domain/usecases/like_tweet_usecase.dart';
+import 'package:twitter_clone/features/tweet/domain/usecases/reshare_tweet_usecase.dart';
 import 'package:twitter_clone/features/tweet/domain/usecases/share_tweet_usecase.dart';
 import 'package:twitter_clone/features/tweet/domain/usecases/upload_image_usecase.dart';
 
@@ -29,6 +30,7 @@ final StateNotifierProvider<TweetController, bool> tweetControllerProvider =
     uploadImageUseCase: ref.watch(uploadImageUseCaseProvider),
     getTweetsUseCase: ref.watch(getTweetsUseCaseProvider),
     likeTweetUseCase: ref.watch(likeTweetUseCaseProvider),
+    reshareTweetUsecase: ref.watch(reshareTweetUseCaseProvider),
     ref: ref,
   );
 });
@@ -70,12 +72,14 @@ class TweetController extends StateNotifier<bool> {
     required UploadImageUseCase uploadImageUseCase,
     required GetTweetsUseCase getTweetsUseCase,
     required LikeTweetUseCase likeTweetUseCase,
+    required ReshareTweetUseCase reshareTweetUsecase,
     required Ref ref,
   })  : _getUserDataUseCase = getUserDataUseCase,
         _shareTweetUseCase = shareTweetUseCase,
         _uploadImageUseCase = uploadImageUseCase,
         _getTweetsUseCase = getTweetsUseCase,
         _likeTweetUseCase = likeTweetUseCase,
+        _reshareTweetUseCase = reshareTweetUsecase,
         _ref = ref,
         super(false);
 
@@ -84,6 +88,7 @@ class TweetController extends StateNotifier<bool> {
   final UploadImageUseCase _uploadImageUseCase;
   final GetTweetsUseCase _getTweetsUseCase;
   final LikeTweetUseCase _likeTweetUseCase;
+  final ReshareTweetUseCase _reshareTweetUseCase;
   final Ref _ref;
 
   Future<UserModel> getUserData(String uid) async {
@@ -103,6 +108,38 @@ class TweetController extends StateNotifier<bool> {
     final Either<Failure, model.Document> response =
         await _likeTweetUseCase.invoke(tweet);
     response.fold((_) => null, (_) => null);
+  }
+
+  Future<void> reshareTweet(
+    Tweet tweet,
+    UserModel currentUser,
+    BuildContext context,
+  ) async {
+    tweet = tweet.copyWith(
+      retweetedBy: currentUser.name,
+      likes: <String>[],
+      commentIds: <String>[],
+      reshareCount: tweet.reshareCount + 1,
+    );
+    //5:39:34
+    final Either<Failure, model.Document> response =
+        await _reshareTweetUseCase.invoke(tweet);
+    response.fold(
+      (Failure error) => showSnackBar(context, error.message),
+      (model.Document doc) async {
+        tweet = tweet.copyWith(
+          id: ID.unique(),
+          reshareCount: 0,
+          tweetedAt: DateTime.now(),
+        );
+        final Either<Failure, model.Document> response =
+            await _shareTweetUseCase.invoke(tweet);
+        response.fold(
+          (Failure error) => showSnackBar(context, error.message),
+          (_) => showSnackBar(context, 'Retweeted!'),
+        );
+      },
+    );
   }
 
   void shareTweet({
@@ -158,6 +195,7 @@ class TweetController extends StateNotifier<bool> {
       commentIds: const <String>[],
       id: '',
       reshareCount: 0,
+      retweetedBy: '',
     );
     final Either<Failure, model.Document> response =
         await _shareTweetUseCase.invoke(tweet);
@@ -188,6 +226,7 @@ class TweetController extends StateNotifier<bool> {
       commentIds: const <String>[],
       id: '',
       reshareCount: 0,
+      retweetedBy: '',
     );
     final Either<Failure, model.Document> response =
         await _shareTweetUseCase.invoke(tweet);

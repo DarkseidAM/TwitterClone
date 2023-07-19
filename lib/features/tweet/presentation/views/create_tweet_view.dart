@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:auto_route/auto_route.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -84,11 +85,18 @@ class _CreateTweetViewState extends ConsumerState<CreateTweetView> {
                   children: <Widget>[
                     Row(
                       children: <Widget>[
-                        CircleAvatar(
-                          backgroundImage: NetworkImage(
-                            currentUser.profilePic,
+                        CachedNetworkImage(
+                          imageUrl: currentUser.profilePic,
+                          imageBuilder:
+                              (_, ImageProvider<Object> imageProvider) =>
+                                  CircleAvatar(
+                            backgroundImage: imageProvider,
+                            radius: 30,
                           ),
-                          radius: 30,
+                          placeholder: (_, __) => Container(
+                            color: Colors.black,
+                          ),
+                          errorWidget: (_, __, ___) => const Icon(Icons.error),
                         ),
                         const SizedBox(
                           width: 15,

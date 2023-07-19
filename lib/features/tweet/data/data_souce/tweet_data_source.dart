@@ -23,6 +23,7 @@ abstract class TweetDataSource {
   Future<List<model.Document>> getTweets();
   Stream<RealtimeMessage> getLatestTweet();
   Future<model.Document> likeTweet(Tweet tweet);
+  Future<model.Document> updateReshareCount(Tweet tweet);
 }
 
 class TweetDataSourceImpl implements TweetDataSource {
@@ -40,11 +41,17 @@ class TweetDataSourceImpl implements TweetDataSource {
 
   @override
   Future<model.Document> getUserData(String uid) {
-    return _databases.getDocument(
-      databaseId: AppWriteConstants.databaseId,
-      collectionId: AppWriteConstants.usersCollection,
-      documentId: uid,
-    );
+    try {
+      return _databases.getDocument(
+        databaseId: AppWriteConstants.databaseId,
+        collectionId: AppWriteConstants.usersCollection,
+        documentId: uid,
+      );
+    } on AppwriteException catch (e, stackTrace) {
+      throw Failure(e.message ?? e.toString(), stackTrace);
+    } catch (e, stackTrace) {
+      throw Failure(e.toString(), stackTrace);
+    }
   }
 
   @override
@@ -123,6 +130,24 @@ class TweetDataSourceImpl implements TweetDataSource {
         documentId: tweet.id,
         data: <String, List<String>>{
           'likes': tweet.likes,
+        },
+      );
+    } on AppwriteException catch (e, stackTrace) {
+      throw Failure(e.message ?? e.toString(), stackTrace);
+    } catch (e, stackTrace) {
+      throw Failure(e.toString(), stackTrace);
+    }
+  }
+  
+  @override
+  Future<model.Document> updateReshareCount(Tweet tweet) {
+    try {
+      return _databases.updateDocument(
+        databaseId: AppWriteConstants.databaseId,
+        collectionId: AppWriteConstants.tweetsCollection,
+        documentId: tweet.id,
+        data: <String, int>{
+          'reshareCount': tweet.reshareCount,
         },
       );
     } on AppwriteException catch (e, stackTrace) {

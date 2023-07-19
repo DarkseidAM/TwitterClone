@@ -67,4 +67,17 @@ class TweetRepositoryImpl implements TweetRepository {
       return left(Failure(e.toString(), stackTrace));
     }
   }
+
+  @override
+  FutureEither<model.Document> updateReshareCount(Tweet tweet) async {
+    try {
+      final model.Document response =
+          await _tweetDataSource.updateReshareCount(tweet);
+      return right(response);
+    } on AppwriteException catch (e, stackTrace) {
+      return left(Failure(e.message ?? e.toString(), stackTrace));
+    } catch (e, stackTrace) {
+      return left(Failure(e.toString(), stackTrace));
+    }
+  }
 }
