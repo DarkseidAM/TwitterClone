@@ -15,5 +15,5 @@ abstract class StreamUseCase<T, R> {
   Stream<R> invoke(T params);
 }
 
-/// Class used for Usecases with No Parameters
+/// Class used for Usecases with zero parameters
 class NoParams {}
